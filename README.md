@@ -17,7 +17,7 @@ https://replit.com/@vikitaotiz/HandyNotedTrees#main.rb
 ## Getting Started
 
 1. Clone the project
-   https://github.com/igorkol91/bubbleSort/tree/development
+   https://github.com/igorkol91/Enumerables/tree/development
 2. On your terminal, cd into the app directory
 3. Run "ruby enumerable.rb"
 
