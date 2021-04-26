@@ -1,9 +1,9 @@
 module Enumerable
   ## method to check incoming data type
   def check_data_type(data_type)
-    arr = data_type if data_type.class == Array
-    arr = to_a if data_type.class == Range
-    arr = flatten if data_type.class == Hash
+    arr = data_type if data_type.instance_of?(Array)
+    arr = to_a if data_type.instance_of?(Range)
+    arr = flatten if data_type.instance_of?(Hash)
     arr
   end
 
