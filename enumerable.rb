@@ -52,19 +52,20 @@ module Enumerable
 
   ## my_all method
   def my_all?
-    unless block_given? do
+    unless block_given? 
       for i in self 
       if i == true
+        p "true"
         return true
       elsif i == false or i == nil
+      p "false"
         return false 
-      end
       end
       end
     end
 
     arr = self
-    arr.my_each { |i| return false unless yield(i) }
+    arr.my_each { |i| false unless yield(i) }
     true
   end
 
