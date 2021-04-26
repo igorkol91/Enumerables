@@ -4,7 +4,7 @@
 
 ![ruby-enum](https://user-images.githubusercontent.com/42869046/116055271-3382bf80-a685-11eb-8ac2-65d70377c8c6.PNG)
 
-This is our 1st ruby project in microverse
+This is our 2nd ruby project in microverse
 
 ## Built With
 
