@@ -1,9 +1,9 @@
 module Enumerable
-
+  ## method to check incoming data type
   def check_data_type(data_type)
-    arr = data_type if data_type.class == Array
-    arr = to_a if data_type.class == Range
-    arr = flatten if data_type.class == Hash
+    arr = data_type if data_type == instance_of?(Array)
+    arr = to_a if data_type == instance_of?(Range)
+    arr = flatten if data_type == instance_of?(Hash)
     
     arr
   end
@@ -111,9 +111,9 @@ end
 puts '---- my_each ----'
 puts([2, 5, 6, 7].my_each { |x| x })
 puts([2, 5, 6, 7, nil].my_each { |x| x })
-puts([2, 5, 6, 7, nil, "hello"].my_each { |x| x })
+puts([2, 5, 6, 7, nil, 'hello'].my_each { |x| x })
 puts((0..10).my_each { |x| x })
-puts(({"name" => "John", "age" => 21, "adress"=>"USA"}).my_each { |x| x })
+puts({ 'name' => 'John', 'age' => 21, 'adress' => 'USA' }.my_each { |x| x })
 
 ## my_each_index
 puts '---- my_each_index ----'
