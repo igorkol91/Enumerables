@@ -4,7 +4,6 @@ module Enumerable
     arr = data_type if data_type == instance_of?(Array)
     arr = to_a if data_type == instance_of?(Range)
     arr = flatten if data_type == instance_of?(Hash)
-    
     arr
   end
 
