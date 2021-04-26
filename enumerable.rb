@@ -52,20 +52,21 @@ module Enumerable
 
   ## my_all method
   def my_all?
+    
     unless block_given? 
       for i in self 
-      if i == true
-        return true
-      elsif i == false or i == nil
+        if i == false or i == nil
         return false 
-      end
-      end
-    end
-
+        end
+        end
+    return true
+      end 
+    bul = true
     arr = self
-    arr.my_each { |i| false unless yield(i) }
-    true
+    arr.my_each { |i| bul = false unless yield(i) }
+    bul
   end
+end
 
   ## my_none method
   def my_none
