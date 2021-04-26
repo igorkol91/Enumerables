@@ -25,7 +25,7 @@ https://replit.com/@vikitaotiz/HandyNotedTrees#main.rb
 
 ### Prerequisites
 
-For local usage, ensure you have ruby installed and environment configured
+For local usage, ensure you have ruby installed and environment variable configured properly.
 
 ## Authors
 
