@@ -52,7 +52,7 @@ module Enumerable
 
   ## my_all method
   def my_all
-    return unless block_given?
+    return self unless block_given?
 
     arr = self
     arr.my_each { |i| return false unless yield(i) }
@@ -61,7 +61,7 @@ module Enumerable
 
   ## my_none method
   def my_none
-    return unless block_given?
+    return self unless block_given?
 
     arr = self
     arr.my_each { |i| return false unless yield(i) }
@@ -70,7 +70,7 @@ module Enumerable
 
   ## my_count method
   def my_count
-    return unless block_given?
+    return self unless block_given?
 
     arr = self
     counter = 0
