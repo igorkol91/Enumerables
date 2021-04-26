@@ -1,6 +1,6 @@
-# bubbleSort
+# Enumerables
 
-> This project shows sorting algorithms of integer arrays and string arrays
+> This project shows enumerable methods of integer, nil and string arrays, ranges and hashes.
 
 ![Screenshot](./big-sc.png)
 
@@ -12,20 +12,20 @@ This is our 1st ruby project in microverse
 
 ## Live Demo
 
-https://replit.com/@vikitaotiz/Bubble-Sort-1#main.rb
+https://replit.com/@vikitaotiz/HandyNotedTrees#main.rb
 
 ## Getting Started
 
 1. Clone the project
    https://github.com/igorkol91/bubbleSort/tree/development
+2. On your terminal, cd into the app directory
+3. Run "ruby enumerable.rb"
 
-2. Then open https://replit.com/languages/ruby
-
-Copy and paste the code in replit.com
+4. You can also copy the code from enumerable.rb then paste and run it on https://replit.com/languages/ruby
 
 ### Prerequisites
 
-Just ensure you have one or more web browsers
+For local usage, ensure you have ruby installed and environment configured
 
 ## Authors
 
