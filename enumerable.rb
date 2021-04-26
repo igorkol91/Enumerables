@@ -55,10 +55,8 @@ module Enumerable
     unless block_given? 
       for i in self 
       if i == true
-        p "true"
         return true
       elsif i == false or i == nil
-      p "false"
         return false 
       end
       end
@@ -139,7 +137,7 @@ puts([4, 5, 6].my_any { |n| n < 3 })
 
 ## my_all
 puts '---- my_all ----'
-puts([2, 4, 6, 7, 8, 4].my_all? { |n| n < 9 })
+puts [nil, 4, 6, 7, 8, 4].my_all? 
 
 ## my_none
 puts '---- my_none ----'
