@@ -85,12 +85,12 @@ bul = false
   def my_none?
      unless block_given? 
       for i in self 
-        if i == false
+        if i == true
         return false
         end
         end
     for i in self 
-       return true if i == true
+       return true if i == false
     end
      return to_enum(:my_any?)
       end 
@@ -142,12 +142,13 @@ bul = false
     end
 
     result ||= 0
-    if args.length != 0
-    my_each { |x| result = block_given? ? yield(result, x) : result.send(sym, x) }
-    result
-    end
-    
+     if args.length != 0
+   my_each { |x| result = block_given? ? yield(result, x) : result.send(sym, x) }
+ p result 
+     end
   end
+    
+
 
   ## multiply_els method
   def multiply_els
@@ -177,7 +178,7 @@ puts '---- my_select ----'
 puts([2, 5, 6, 7].my_select { |n| n })
 
 puts '---- my_any ----'
-puts([4, 5, 6].my_any? { |n| true if n < 8 })
+puts([4, 5, 6].my_any? { |n| true if n >8 })
 
 ## my_all
 puts '---- my_all ----'
@@ -185,7 +186,7 @@ puts [false,2].my_all?
 
 ## my_none
 puts '---- my_none ----'
-puts([4, 5, 6].my_none? { |n| true if n < 8 })
+puts([4,5,6].my_none? { |n| true if n > 8 })
 
 ## my_count method
 puts '---- my_count ----'
@@ -197,10 +198,14 @@ puts([2, 5, 7, 4, 2].my_map { |x| x<3 })
 
 ## my_inject method
 puts '---- my_inject ----'
-puts([].my_inject)
+(5..10).my_inject(:+)
+ ["asd","asdaf","asdasdas"].my_inject 
+  # => 45
+(5..10).my_inject(0) {|product, n| product + n }
+   (5..10).my_inject(1, :*)
+   (5..10).my_inject(1) { |product, n| product * n }
 
 ## my_inject and multiply_els
-puts '---- multiply_els ----'
-puts([2, 4, 5].multiply_els { |x, y| x * y })
+
 
 #return to_enum(:my_select) unless block_given?
