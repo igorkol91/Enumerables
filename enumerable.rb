@@ -127,10 +127,26 @@ bul = false
   end
 
   ## my_inject method
-  def my_inject(&factor)
+  def my_inject(*args)
+      if args.length == 0 
+         return self.min.length
+      elsif args.length == 1
+         if args.first.is_a?(Symbol) 
+           sym = args.first 
+           else
+           result = args.first
+         end
+      end
+      if args.length == 2
+        result, sym = args.first, args.last
+    end
 
-    arr = self
-    arr.my_each { |x| factor.call(x) }
+    result ||= 0
+    if args.length != 0
+    my_each { |x| result = block_given? ? yield(result, x) : result.send(sym, x) }
+    result
+    end
+    
   end
 
   ## multiply_els method
