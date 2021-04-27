@@ -127,7 +127,7 @@ module Enumerable
 
   def my_inject(args)
     return self.min.length if args.length.zero? and self[0].is_a? String
-    elsif args.length == 1
+    if args.length == 1
       if args.first.is_a?(Symbol)
         sum = args.first
       else
