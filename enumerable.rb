@@ -20,7 +20,7 @@ module Enumerable
   end
   ## my_each_index method
   def my_each_with_index
-    return unless block_given?
+    return to_enum(:my_each_with_index) unless block_given?
 
     arr = check_data_type(self)
 
@@ -82,13 +82,13 @@ bul = false
 
 
   ## my_none method
-  def my_none
+  def my_none?
     !my_any?
   end
 
   ## my_count method
   def my_count
-    return unless block_given?
+    return to_enum(:my_count) unless block_given? and self.length == 0
 
     arr = self
     counter = 0
@@ -98,17 +98,17 @@ bul = false
 
   ## my_map method
   def my_map(&factor)
-    return unless block_given?
+    return to_enum(:my_map) unless block_given?
 
     arr = self
     new_arr = []
-    arr.my_each { |x| new_arr << factor.call(x) }
+    return new_arr if arr.my_each { |x| new_arr << factor.call(x) }
+    return new_arr if arr.my_each { |x| new_arr << yield(x) }
     new_arr
   end
 
   ## my_inject method
   def my_inject(&factor)
-    return unless block_given?
 
     arr = self
     arr.my_each { |x| factor.call(x) }
@@ -151,7 +151,7 @@ puts [false,2].my_all?
 
 ## my_none
 puts '---- my_none ----'
-puts([4, 5, 6].my_none { |n| n > 5 })
+puts([4, 5, 6].my_none? { |n| n > 5 })
 
 ## my_count method
 puts '---- my_count ----'
@@ -159,11 +159,11 @@ puts([2, 5, 6, 7].my_count { |x| x })
 
 ## my_map method
 puts '---- my_map ----'
-puts([2, 5, 7, 4, 2].my_map { |i| i + 8 })
+puts([2, 5, 7, 4, 2].my_map { |x| x = x + 8 })
 
 ## my_inject method
-puts '---- my_count ----'
-puts([2, 5, 6, 7].my_count { |x| x })
+puts '---- my_inject ----'
+puts([].my_inject)
 
 ## my_inject and multiply_els
 puts '---- multiply_els ----'
