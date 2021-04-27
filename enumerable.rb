@@ -134,7 +134,6 @@ module Enumerable
         result = args.first
       end
     end
-    
     result, sum = args.first, args.last if args.length == 2
     result ||= 0
     return unless !args.empty?
