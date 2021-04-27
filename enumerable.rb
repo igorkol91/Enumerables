@@ -1,3 +1,4 @@
+system "cls"
 module Enumerable
   ## method to check incoming data type
   def check_data_type(data_type)
@@ -9,13 +10,15 @@ module Enumerable
 
   ## my_each method
   def my_each
-    return self unless block_given?
+    return to_enum(:my_each) unless block_given?
 
     arr = check_data_type(self)
 
     for i in arr
       yield(i)
     end
+
+    arr
   end
 
   ## my_each_index method
@@ -50,11 +53,40 @@ module Enumerable
   end
 
   ## my_all method
-  def my_all
-    return self unless block_given?
+  # def my_all?(arg = nil)
+  #   arr = self
+  #   if block_given?
+  #     arr.my_each { |i| return true if yield(i) }
+  #     true
+  #   elsif arg.nil?
+  #     arr.my_each { |i| return false if i == false || i.nil?}
 
+  #   elsif arg.kind_of? Class && !arg.nil?
+  #     arr.my_each { |i| return true if [i.class, i.class.superclass].include?(arg) }
+
+  #   elsif arg.instance_of?(Regexp) && !arg.nil? 
+  #     arr.my_each { |i| return true if arg.match(i) }
+
+  #   else
+  #     arr.my_each { |i| return false if i != arg }
+  #   end
+  #   true
+  # end
+
+  def my_all?(param = nil)
     arr = self
-    arr.my_each { |i| return false unless yield(i) }
+    if block_given?
+      arr.my_each { |item| return false if yield(item) == false }
+      return true
+    elsif param.nil?
+      arr.my_each { |item| return false if item.nil? || item == false }
+    elsif !param.nil? && (param.is_a? Class)
+      arr.my_each { |item| return false unless [item.class, item.class.superclass].include?(param) }
+    elsif !param.nil? && param.class == Regexp
+      arr.my_each { |item| return false unless param.match(item) }
+    else
+      arr.my_each { |item| return false if item != param }
+    end
     true
   end
 
@@ -108,44 +140,45 @@ end
 
 ## my_each method
 puts '---- my_each ----'
-puts([2, 5, 6, 7].my_each { |x| x })
-puts([2, 5, 6, 7, nil].my_each { |x| x })
-puts([2, 5, 6, 7, nil, 'hello'].my_each { |x| x })
-puts((0..10).my_each { |x| x })
-puts({ 'name' => 'John', 'age' => 21, 'adress' => 'USA' }.my_each { |x| x })
+# puts([2, 5, 6, 7].my_each { |x| x })
+# puts([].my_each)
+# puts([2, 5, 6, 7, nil].my_each { |x| x })
+# puts([2, 5, 6, 7, nil, 'hello'].my_each { |x| x })
+# puts((0..10).my_each { |x| x })
+# puts({ 'name' => 'John', 'age' => 21, 'adress' => 'USA' }.my_each { |x| x })
 
-## my_each_index
-puts '---- my_each_index ----'
-puts([2, 5, 6, 7].my_each_with_index { |x, i| puts "#{i} : #{x}" })
+# ## my_each_index
+# puts '---- my_each_index ----'
+# puts([2, 5, 6, 7].my_each_with_index { |x, i| puts "#{i} : #{x}" })
 
-## my_select
-puts '---- my_select ----'
-puts([2, 5, 6, 7].my_select { |n| n })
+# ## my_select
+# puts '---- my_select ----'
+# puts([2, 5, 6, 7].my_select { |n| n })
 
-## my_any
-puts '---- my_any ----'
-puts([4, 5, 6].my_any { |n| n < 3 })
+# ## my_any
+# puts '---- my_any ----'
+# puts([4, 5, 6].my_any { |n| n < 3 })
 
 ## my_all
-puts '---- my_all ----'
-puts([2, 4, 6, 7, 8, 4].my_all { |n| n < 9 })
+# puts '---- my_all ----'
+puts(%w[ant bear cat].my_all?(/t/) )
 
-## my_none
-puts '---- my_none ----'
-puts([4, 5, 6].my_none { |n| n > 5 })
+# ## my_none
+# puts '---- my_none ----'
+# puts([4, 5, 6].my_none { |n| n > 5 })
 
-## my_count method
-puts '---- my_count ----'
-puts([2, 5, 6, 7].my_count { |x| x })
+# ## my_count method
+# puts '---- my_count ----'
+# puts([2, 5, 6, 7].my_count { |x| x })
 
-## my_map method
-puts '---- my_map ----'
-puts([2, 5, 7, 4, 2].my_map { |i| i + 8 })
+# ## my_map method
+# puts '---- my_map ----'
+# puts([2, 5, 7, 4, 2].my_map { |i| i + 8 })
 
-## my_inject method
-puts '---- my_count ----'
-puts([2, 5, 6, 7].my_count { |x| x })
+# ## my_inject method
+# puts '---- my_count ----'
+# puts([2, 5, 6, 7].my_count { |x| x })
 
-## my_inject and multiply_els
-puts '---- multiply_els ----'
-puts([2, 4, 5].multiply_els { |x, y| x * y })
+# ## my_inject and multiply_els
+# puts '---- multiply_els ----'
+# puts([2, 4, 5].multiply_els { |x, y| x * y })
