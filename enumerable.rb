@@ -59,8 +59,9 @@ module Enumerable
     arr.my_each { |x| bul = true if yield(x) }
     bul
   end
-  
+
   ## my_all method
+  # rubocop: disable Metrics/CyclomaticComplexity
   def my_all?
     unless block_given?
       for i in self
@@ -76,6 +77,7 @@ module Enumerable
     arr.my_each { |x| bul = true if yield(x) }
     bul
   end
+  # rubocop: enable Metrics/CyclomaticComplexity
 
   ## my_none method
   def my_none?
@@ -83,9 +85,11 @@ module Enumerable
       for i in self
         return false if i == true
       end
+      # rubocop: disable Style/CombinableLoops
       for i in self
         return true if i == false
       end
+      # rubocop: enable Style/CombinableLoops
       return to_enum(:my_none?)
     end
     bul = true
@@ -121,6 +125,7 @@ module Enumerable
     end
   end
 
+  # rubocop: disable Metrics/CyclomaticComplexity
   def my_inject(*args)
     return min.length if args.length.zero? and self[0].is_a? String
 
@@ -133,10 +138,10 @@ module Enumerable
     end
     result = args.first, sum = args.last if args.length == 2
     result ||= 0
-
     my_each { |x| result = block_given? ? yield(result, x) : result.send(sum, x) }
     result
   end
+  # rubocop: disable Metrics/CyclomaticComplexity
 # rubocop: enable Metrics/ModuleLength
 end
 
