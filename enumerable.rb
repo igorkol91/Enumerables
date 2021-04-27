@@ -67,9 +67,11 @@ module Enumerable
       for i in self
         return false if i == false || i.nil?
       end
+      # rubocop: disable Style/CombinableLoops
       for i in self
         return true if i == true
       end
+      # rubocop: enable Style/CombinableLoops
       return to_enum(:my_all?)
     end
     bul = false
@@ -125,7 +127,6 @@ module Enumerable
     end
   end
 
-  # rubocop: disable Metrics/CyclomaticComplexity
   def my_inject(*args)
     return min.length if args.length.zero? and self[0].is_a? String
 
@@ -142,7 +143,7 @@ module Enumerable
     result
   end
   # rubocop: disable Metrics/CyclomaticComplexity
-# rubocop: enable Metrics/ModuleLength
+  # rubocop: enable Metrics/ModuleLength
 end
 
 ## multiply_els method
