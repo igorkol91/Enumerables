@@ -1,3 +1,4 @@
+# rubocop: disable Metrics/ModuleLength
 module Enumerable
   ## method to check incoming data type
   def check_data_type(data_type)
@@ -39,7 +40,7 @@ module Enumerable
     my_each { |i| arr << i if yield(i) }
     arr
   end
-
+# rubocop: disable Style/For
   ## my_any method
   def my_any?
     unless block_given?
@@ -56,7 +57,7 @@ module Enumerable
     arr.my_each { |x| bul = true if yield(x) }
     bul
   end
-
+# rubocop: enable Style/For
   ## my_all method
   def my_all?
     unless block_given?
@@ -134,6 +135,7 @@ module Enumerable
     my_each { |x| result = block_given? ? yield(result, x) : result.send(sum, x) }
     result
   end
+# rubocop: enable Metrics/ModuleLength
 end
 
 ## multiply_els method
