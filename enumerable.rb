@@ -189,9 +189,9 @@ end
 
 # my_inject method
 puts '---- my_inject ----'
-puts([5,6,7,8,9,10].my_inject(:+))
-puts(["asd","asdaf","asdasdas"].my_inject)
-puts((5..10).my_inject(0) {|product, n| product + n })
+puts([5, 6, 7, 8, 9, 10].my_inject(:+))
+puts(['asd', 'asdaf', 'asdasdas'].my_inject)
+puts((5..10).my_inject(0) { |product, n| product + n })
 puts((5..10).my_inject(1) { |product, n| product * n })
 puts '-----multiply------'
 puts(multiply_els([2, 4, 5]) { |product, n| product * n })
