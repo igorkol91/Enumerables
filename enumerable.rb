@@ -137,8 +137,9 @@ module Enumerable
     result, sum = args.first, args.last if args.length == 2
     result ||= 0
     return unless !args.empty?
-    my_each { |x| result = block_given? ? yield(result, x) : result.send(sum, x) }
-    result
+      my_each { |x| result = block_given? ? yield(result, x) : result.send(sum, x) }
+      result
+    end
   end
 end
 
