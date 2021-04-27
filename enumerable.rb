@@ -127,6 +127,7 @@ module Enumerable
     end
   end
 
+  # rubocop: disable Metrics/CyclomaticComplexity
   def my_inject(*args)
     return min.length if args.length.zero? and self[0].is_a? String
 
@@ -142,7 +143,7 @@ module Enumerable
     my_each { |x| result = block_given? ? yield(result, x) : result.send(sum, x) }
     result
   end
-  # rubocop: disable Metrics/CyclomaticComplexity
+  # rubocop: enable Metrics/CyclomaticComplexity
   # rubocop: enable Metrics/ModuleLength
 end
 
