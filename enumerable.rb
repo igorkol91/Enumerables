@@ -125,7 +125,7 @@ module Enumerable
     end
   end
 
-  def my_inject(args)
+  def my_inject(*args)
     return self.min.length if args.length.zero? and self[0].is_a? String
     if args.length == 1
       if args.first.is_a?(Symbol)
@@ -137,9 +137,8 @@ module Enumerable
     result, sum = args.first, args.last if args.length == 2
     result ||= 0
     return unless !args.empty?
-      my_each { |x| result = block_given? ? yield(result, x) : result.send(sum, x) }
-      result
-    end
+    my_each { |x| result = block_given? ? yield(result, x) : result.send(sum, x) }
+    result
   end
 end
 
