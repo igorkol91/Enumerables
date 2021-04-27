@@ -9,7 +9,7 @@ module Enumerable
 
   ## my_each method
   def my_each
-    return unless block_given?
+    return to_enum(:my_each) unless block_given?
 
     arr = check_data_type(self)
 
@@ -129,7 +129,7 @@ bul = false
   ## my_inject method
   def my_inject(*args)
       if args.length == 0 
-         return self.min.length
+        return self.min.length
       elsif args.length == 1
          if args.first.is_a?(Symbol) 
            sym = args.first 
@@ -144,21 +144,20 @@ bul = false
     result ||= 0
      if args.length != 0
    my_each { |x| result = block_given? ? yield(result, x) : result.send(sym, x) }
- p result 
+   result 
      end
   end
     
+end
 
+## multiply_els method
+def multiply_els
+  return unless block_given?
 
-  ## multiply_els method
-  def multiply_els
-    return unless block_given?
-
-    arr = self
-    result = 1
-    arr.my_inject { |i| result = yield(result, i) }
-    result
-  end
+  arr = self
+  result = 1
+  arr.my_inject { |i| result = yield(result, i) }
+  result
 end
 
 ## my_each method
@@ -198,14 +197,14 @@ puts([2, 5, 7, 4, 2].my_map { |x| x<3 })
 
 ## my_inject method
 puts '---- my_inject ----'
-(5..10).my_inject(:+)
- ["asd","asdaf","asdasdas"].my_inject 
+#(5..10).my_inject(:+)
+ #["asd","asdaf","asdasdas"].my_inject 
   # => 45
-(5..10).my_inject(0) {|product, n| product + n }
-   (5..10).my_inject(1, :*)
-   (5..10).my_inject(1) { |product, n| product * n }
+#(5..10).my_inject(0) {|product, n| product + n }
+   
+   #(5..10).my_inject(1) { |product, n| product * n }
 
-## my_inject and multiply_els
+p '------my_inject and multiply_els-------'
 
 
 #return to_enum(:my_select) unless block_given?
