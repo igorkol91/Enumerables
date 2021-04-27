@@ -42,70 +42,69 @@ module Enumerable
 
   ## my_any method
   def my_any?
+    
     unless block_given?
       for i in self
-        if i == true
-        return true
-        end
+        return true if i == true
       end
       for i in self
         return false if i == false
       end
       return to_enum(:my_any?)
-      end
+    end
     bul = false
     arr = self
-    arr.my_each { |i| bul = true if yield(i) }
+    arr.my_each { |x| bul = true if yield(x) }
     bul
   end
 
   ## my_all method
-   def my_all?
-    unless block_given? 
-      for i in self 
-        if i == false or i == nil
-        return false 
+  def my_all?
+
+    unless block_given?
+      for i in self
+        if i == false || i.nil?
+          return false
         end
       end
-      for i in self 
-       return true if i == true 
+      for i in self
+       return true if i == true
       end
-      return to_enum(:my_all?) 
-    end 
+      return to_enum(:my_all?)
+    end
     bul = false
     arr = self
-    arr.my_each { |i| bul = true if yield(i) }
+    arr.my_each { |x| bul = true if yield(x) }
     bul
   end
 
 
   ## my_none method
   def my_none?
+
     unless block_given?
-      for i in self 
-        if i == true
-          return false
-        end
+      for i in self
+        return false if i == true
       end
-      for i in self 
+      for i in self
         return true if i == false
       end
-      return to_enum(:my_any?)
+      return to_enum(:my_none?)
     end
     bul = true
     arr = self
-    arr.my_each { |i| bul = false if yield(i) }
+    arr.my_each { |x| bul = false if yield(x) }
     bul
   end
 
   ## my_count method
   def my_count(args = nil)
     counter = 0
-    unless args == nil
-       for i in self
-         counter +=1 if i == args
+    unless args.nil?
+      for i in self
+         counter += 1 if i == args
        end
-    return counter
+      return counter
     end
     counter
   end
@@ -116,7 +115,7 @@ module Enumerable
 
     arr = self
     new_arr = []
-    if factor == nil
+    if factor.nil?
       arr.my_each { |x| new_arr << x if factor.call(x) }
       arr
     else
@@ -126,7 +125,8 @@ module Enumerable
   end
 
   def my_inject(*args)
-    return self.min.length if args.length.zero? and self[0].is_a? String
+    return min.length if args.length.zero? and self[0].is_a? String
+
     if args.length == 1
       if args.first.is_a?(Symbol)
         sum = args.first
@@ -134,7 +134,7 @@ module Enumerable
         result = args.first
       end
     end
-    result, sum = args.first, args.last if args.length == 2
+    result = args.first , sum = args.last if args.length == 2
     result ||= 0
 
     my_each { |x| result = block_given? ? yield(result, x) : result.send(sum, x) }
