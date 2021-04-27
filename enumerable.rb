@@ -40,17 +40,19 @@ module Enumerable
     my_each { |i| arr << i if yield(i) }
     arr
   end
-  # rubocop: disable Style/For
+  
   ## my_any method
   def my_any?
 
     unless block_given?
+      # rubocop: disable Style/For
       for i in self
         return true if i == true
       end
       for i in self
         return false if i == false
       end
+      # rubocop: enable Style/For
       return to_enum(:my_any?)
     end
     bul = false
@@ -58,7 +60,7 @@ module Enumerable
     arr.my_each { |x| bul = true if yield(x) }
     bul
   end
-  # rubocop: enable Style/For
+  
   ## my_all method
   def my_all?
     unless block_given?
