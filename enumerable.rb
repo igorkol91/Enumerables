@@ -42,39 +42,44 @@ module Enumerable
   end
 
   ## my_any method
-  def my_any
-    return unless block_given?
-
-    arr = self
-    arr.my_each { |i| return true if yield(i) }
-    false
-  end
-
-  ## my_all method
-  def my_all?
-    
-    unless block_given? 
+  def my_any?
+     unless block_given? 
       for i in self 
-        if i == false or i == nil
-        return false 
+        if i == true 
+        return true 
         end
         end
-    return true
+    return false
       end 
     bul = true
     arr = self
     arr.my_each { |i| bul = false unless yield(i) }
     bul
   end
-end
+
+  ## my_all method
+   def my_all?
+    unless block_given? 
+      for i in self 
+        if i == false or i == nil
+        return false 
+        end
+        end
+    for i in self 
+       return true if i == true 
+    end
+      end 
+    return to_enum(:my_select) unless block_given? && self.length == 0
+bul = true
+    arr = self
+    arr.my_each { |i| bul = false unless yield(i) }
+    bul
+  end
+
 
   ## my_none method
   def my_none
-    return unless block_given?
-
-    arr = self
-    arr.my_each { |i| return true unless yield(i) }
-    false
+    !my_any?
   end
 
   ## my_count method
@@ -134,11 +139,11 @@ puts([2, 5, 6, 7].my_select { |n| n })
 
 ## my_any
 puts '---- my_any ----'
-puts([4, 5, 6].my_any { |n| n < 3 })
+puts(['n', 5, 6].my_any? { |n| n })
 
 ## my_all
 puts '---- my_all ----'
-puts [nil, 4, 6, 7, 8, 4].my_all? 
+puts [true,false].my_all? 
 
 ## my_none
 puts '---- my_none ----'
@@ -159,3 +164,5 @@ puts([2, 5, 6, 7].my_count { |x| x })
 ## my_inject and multiply_els
 puts '---- multiply_els ----'
 puts([2, 4, 5].multiply_els { |x, y| x * y })
+
+#return to_enum(:my_select) unless block_given?
