@@ -40,18 +40,18 @@ module Enumerable
     my_each { |i| arr << i if yield(i) }
     arr
   end
-  
+
   ## my_any method
   def my_any?
     unless block_given?
       for i in self
         return true if i == true
       end
-      # rubocop: disable Style/For
+      # rubocop: disable Style/CombinableLoops
       for i in self
         return false if i == false
       end
-      # rubocop: enable Style/For
+      # rubocop: enable Style/CombinableLoops
       return to_enum(:my_any?)
     end
     bul = false
