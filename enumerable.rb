@@ -43,12 +43,11 @@ module Enumerable
   
   ## my_any method
   def my_any?
-
     unless block_given?
-      # rubocop: disable Style/For
       for i in self
         return true if i == true
       end
+      # rubocop: disable Style/For
       for i in self
         return false if i == false
       end
