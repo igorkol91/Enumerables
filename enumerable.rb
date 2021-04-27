@@ -140,6 +140,7 @@ module Enumerable
     return unless !args.empty?
       my_each { |x| result = block_given? ? yield(result, x) : result.send(sum, x) }
       result
+    end
   end
 end
 
