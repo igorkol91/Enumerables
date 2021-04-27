@@ -155,3 +155,52 @@ def multiply_els
   arr.my_inject { |i| result = yield(result, i) }
   result
 end
+
+## my_each method
+puts '---- my_each ----'
+puts([2, 5, 6, 7].my_each { |x| x })
+puts([2, 5, 6, 7, nil].my_each { |x| x })
+puts([2, 5, 6, 7, nil, 'hello'].my_each { |x| x })
+puts((0..10).my_each { |x| x })
+{ 'name' => 'John', 'age' => 21, 'adress' => 'USA' }.my_each { |x| p x }
+
+## my_each_index
+puts '---- my_each_index ----'
+puts([2, 5, 6, 7].my_each_with_index { |x, i| puts "#{i} : #{x}" })
+
+## my_select
+puts '---- my_select ----'
+puts([2, 5, 6, 7].my_select { |n| n })
+
+puts '---- my_any ----'
+puts([4, 5, 6].my_any? { |n| true if n >8 })
+
+## my_all
+puts '---- my_all ----'
+puts [false,2].my_all? 
+
+## my_none
+puts '---- my_none ----'
+puts([4,5,6].my_none? { |n| true if n > 8 })
+
+## my_count method
+puts '---- my_count ----'
+puts((1..3).my_count(3){|n| n})
+
+## my_map method
+puts '---- my_map ----'
+puts([2, 5, 7, 4, 2].my_map { |x| x<3 })
+
+## my_inject method
+puts '---- my_inject ----'
+#(5..10).my_inject(:+)
+ #["asd","asdaf","asdasdas"].my_inject 
+  # => 45
+#(5..10).my_inject(0) {|product, n| product + n }
+   
+   #(5..10).my_inject(1) { |product, n| product * n }
+
+puts '------my_inject and multiply_els-------'
+
+
+#return to_enum(:my_select) unless block_given?
