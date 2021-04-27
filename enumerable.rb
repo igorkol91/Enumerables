@@ -128,6 +128,7 @@ module Enumerable
   end
 
   # rubocop: disable Metrics/CyclomaticComplexity
+  # rubocop: disable Metrics/PerceivedComplexity
   def my_inject(*args)
     return min.length if args.length.zero? and self[0].is_a? String
 
@@ -144,6 +145,7 @@ module Enumerable
     result
   end
   # rubocop: enable Metrics/CyclomaticComplexity
+  # rubocop: enable Metrics/PerceivedComplexity
   # rubocop: enable Metrics/ModuleLength
 end
 
