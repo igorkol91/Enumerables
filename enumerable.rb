@@ -125,21 +125,20 @@ module Enumerable
     end
   end
 
-  def my_inject(*args)
-    if args.length == 0 and self[0].is_a? String 
-      return self.min.length
+  def my_inject(args)
+    return self.min.length if args.length.zero? and self[0].is_a? String
     elsif args.length == 1
       if args.first.is_a?(Symbol)
-        sum = args.first 
-        else
+        sum = args.first
+      else
         result = args.first
       end
     end
-    if args.length == 2
-      result, sum = args.first , args.last
+    
+    result, sum = args.first, args.last if args.length == 2
     end
     result ||= 0
-    if args.length != 0
+    return unless !args.empty?
       my_each { |x| result = block_given? ? yield(result, x) : result.send(sum, x) }
       result
     end
@@ -150,7 +149,6 @@ end
 def multiply_els(arr)
   arr.my_inject(1) { |multiply, num| multiply * num }
 end
-
 
 ## my_each method
 # puts '---- my_each ----'
@@ -173,7 +171,7 @@ end
 
 ## my_all
 # puts '---- my_all ----'
-# puts [false,2].my_all? 
+# puts [false,2].my_all?
 
 ## my_none
 # puts '---- my_none ----'
@@ -190,7 +188,7 @@ end
 # my_inject method
 puts '---- my_inject ----'
 puts([5, 6, 7, 8, 9, 10].my_inject(:+))
-puts(['asd', 'asdaf', 'asdasdas'].my_inject)
+puts(%w[asd asdaf asdasdas].my_inject)
 puts((5..10).my_inject(0) { |product, n| product + n })
 puts((5..10).my_inject(1) { |product, n| product * n })
 puts '-----multiply------'
