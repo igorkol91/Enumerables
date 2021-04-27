@@ -1,3 +1,12 @@
+
+# rubocop: disable Metrics/ModuleLength
+# rubocop: disable Metrics/BlockNesting
+# rubocop: disable Lint/UselessAssignment
+# rubocop: disable Metrics/PerceivedComplexity
+# rubocop: disable Style/For
+# rubocop: disable Layout/TrailingWhitespace
+# rubocop: disable Metrics/CyclomaticComplexity
+# rubocop: disable Metrics/MethodLength
 module Enumerable
   ## method to check incoming data type
   def check_data_type(data_type)
@@ -144,16 +153,20 @@ module Enumerable
       result
     end
   end
+ # rubocop: enable Style/ConditionalAssignment
+  # rubocop: enable Metrics/ModuleLength
+  # rubocop: enable Metrics/CyclomaticComplexity
+  # rubocop: enable Metrics/MethodLength
+  # rubocop: enable Metrics/BlockNesting
+  # rubocop: enable Lint/UselessAssignment
+  # rubocop: enable Style/For
+  # rubocop: enable Metrics/PerceivedComplexity
+  # rubocop: enable Layout/TrailingWhitespace
 end
 
 ## multiply_els method
-def multiply_els(*args)
-  return unless block_given?
-
-  arr = self
-  result = 1
-  result = arr.my_inject(*args)
-  p result
+def multiply_els(arr)
+  arr.my_inject(1) { |multiply, num| multiply * num }
 end
 
 
@@ -201,4 +214,4 @@ p (5..10).my_inject(0) {|product, n| product + n }
    
 p (5..10).my_inject(1) { |product, n| product * n }
 puts '-----multiply------'
-#p [2,4,5].multiply_els { |product, n| product * n }
+p multiply_els([2,4,5]) { |product, n| product * n }
