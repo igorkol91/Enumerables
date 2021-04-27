@@ -1,4 +1,3 @@
-system "cls"
 module Enumerable
   ## method to check incoming data type
   def check_data_type(data_type)
@@ -35,7 +34,7 @@ module Enumerable
 
   ## my_select method
   def my_select
-    return unless block_given?
+    return to_enum(:my_select) unless block_given?
 
     arr = []
     my_each { |i| arr << i if yield(i) }
@@ -84,11 +83,25 @@ bul = false
 
   ## my_none method
   def my_none?
-    !my_any?
+     unless block_given? 
+      for i in self 
+        if i == false
+        return false
+        end
+        end
+    for i in self 
+       return true if i == true
+    end
+     return to_enum(:my_any?)
+      end 
+    bul = true
+    arr = self
+    arr.my_each { |i| bul = false if yield(i) }
+    bul
   end
 
   ## my_count method
-   def my_count(args = nil)
+  def my_count(args = nil)
     counter = 0
     unless args == nil
        for i in self 
@@ -139,17 +152,16 @@ puts([2, 5, 6, 7, nil, 'hello'].my_each { |x| x })
 puts((0..10).my_each { |x| x })
 { 'name' => 'John', 'age' => 21, 'adress' => 'USA' }.my_each { |x| p x }
 
-# ## my_each_index
-# puts '---- my_each_index ----'
-# puts([2, 5, 6, 7].my_each_with_index { |x, i| puts "#{i} : #{x}" })
+## my_each_index
+puts '---- my_each_index ----'
+puts([2, 5, 6, 7].my_each_with_index { |x, i| puts "#{i} : #{x}" })
 
-# ## my_select
-# puts '---- my_select ----'
-# puts([2, 5, 6, 7].my_select { |n| n })
+## my_select
+puts '---- my_select ----'
+puts([2, 5, 6, 7].my_select { |n| n })
 
-## my_any
 puts '---- my_any ----'
-puts(['into', '5', '6'].my_any? { |n| true if /n/ =~ n })
+puts([4, 5, 6].my_any? { |n| true if n < 8 })
 
 ## my_all
 puts '---- my_all ----'
@@ -157,11 +169,11 @@ puts [false,2].my_all?
 
 ## my_none
 puts '---- my_none ----'
-puts([4, 5, 6].my_none? { |n| n > 5 })
+puts([4, 5, 6].my_none? { |n| true if n < 8 })
 
-# ## my_count method
-# puts '---- my_count ----'
-# puts([2, 5, 6, 7].my_count { |x| x })
+## my_count method
+puts '---- my_count ----'
+puts((1..3).my_count(3){|n| n})
 
 ## my_map method
 puts '---- my_map ----'
