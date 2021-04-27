@@ -42,7 +42,6 @@ module Enumerable
 
   ## my_any method
   def my_any?
-    
     unless block_given?
       for i in self
         return true if i == true
@@ -60,15 +59,12 @@ module Enumerable
 
   ## my_all method
   def my_all?
-
     unless block_given?
       for i in self
-        if i == false || i.nil?
-          return false
-        end
+        return false if i == false || i.nil?
       end
       for i in self
-       return true if i == true
+        return true if i == true
       end
       return to_enum(:my_all?)
     end
@@ -78,10 +74,8 @@ module Enumerable
     bul
   end
 
-
   ## my_none method
   def my_none?
-
     unless block_given?
       for i in self
         return false if i == true
@@ -102,7 +96,7 @@ module Enumerable
     counter = 0
     unless args.nil?
       for i in self
-         counter += 1 if i == args
+        counter += 1 if i == args
        end
       return counter
     end
@@ -134,7 +128,7 @@ module Enumerable
         result = args.first
       end
     end
-    result = args.first , sum = args.last if args.length == 2
+    result = args.first, sum = args.last if args.length == 2
     result ||= 0
 
     my_each { |x| result = block_given? ? yield(result, x) : result.send(sum, x) }
