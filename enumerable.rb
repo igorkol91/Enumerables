@@ -102,8 +102,8 @@ bul = false
 
     arr = self
     new_arr = []
-    return new_arr if arr.my_each { |x| new_arr << factor.call(x) }
-    return new_arr if arr.my_each { |x| new_arr << yield(x) }
+    return new_arr if arr.my_each { |x| new_arr << x if factor.call(x) }
+    return new_arr if arr.my_each { |x| new_arr << x if yield(x) }
     new_arr
   end
 
@@ -159,7 +159,7 @@ puts([2, 5, 6, 7].my_count { |x| x })
 
 ## my_map method
 puts '---- my_map ----'
-puts([2, 5, 7, 4, 2].my_map { |x| x = x + 8 })
+puts([2, 5, 7, 4, 2].my_map { |x| x<3 })
 
 ## my_inject method
 puts '---- my_inject ----'
