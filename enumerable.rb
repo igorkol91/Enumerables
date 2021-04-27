@@ -125,7 +125,7 @@ module Enumerable
     end
   end
 
-  def my_inject(*args)
+  def my_inject(args)
     return self.min.length if args.length.zero? and self[0].is_a? String
     if args.length == 1
       if args.first.is_a?(Symbol)
