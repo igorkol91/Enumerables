@@ -125,43 +125,32 @@ module Enumerable
     end
   end
 
-  # def my_inject(*args)
-  #   if args.length == 0
-  #     return self.min.length
-  #   elsif args.length == 1
-  #     if args.first.is_a?(Symbol)
-  #       sum = args.first 
-  #       else
-  #       result = args.first
-  #     end
-  #   end
-  #   if args.length == 2
-  #     result, sum = args.first , args.last
-  #   end
-  #   result ||= 0
-  #   if args.length != 0
-  #     my_each { |x| result = block_given? ? yield(result, x) : result.send(sum, x) }
-  #     result
-  #   end
-  # end 
-
   def my_inject(*args)
-    if self.class == String && !block_given?
-      return self.min
-    elsif block_given?
-      if self.class == Array
-        count = 1
-        self.my_each { |i| count if yield(count, i) }
-        count
+    if args.length == 0 and self[0].is_a? String 
+      return self.min.length
+    elsif args.length == 1
+      if args.first.is_a?(Symbol)
+        sum = args.first 
+        else
+        result = args.first
       end
+    end
+    if args.length == 2
+      result, sum = args.first , args.last
+    end
+    result ||= 0
+    if args.length != 0
+      my_each { |x| result = block_given? ? yield(result, x) : result.send(sum, x) }
+      result
     end
   end
 end
 
 ## multiply_els method
 def multiply_els(arr)
-  arr.my_inject { |i| yield(1, i) }
+  arr.my_inject(1) { |multiply, num| multiply * num }
 end
+
 
 ## my_each method
 # puts '---- my_each ----'
@@ -200,11 +189,11 @@ end
 
 # my_inject method
 puts '---- my_inject ----'
-# puts (5..10).my_inject(:+)
-puts ["asd","asdaf","asdasdas"].my_inject {|product, n| product + n }
-# puts (5..10).my_inject(0) {|product, n| product + n }
-puts (5..10).my_inject { |product, n| product * n }
-
-
-# puts '------my_inject and multiply_els-------'
-# puts multiply_els([2, 4, 5]) {|x, y| x * y}
+p [5,6,7,8,9,10].my_inject(:+)
+p ["asd","asdaf","asdasdas"].my_inject 
+  # => 45
+p (5..10).my_inject(0) {|product, n| product + n }
+   
+p (5..10).my_inject(1) { |product, n| product * n }
+puts '-----multiply------'
+p multiply_els([2,4,5]) { |product, n| product * n }
