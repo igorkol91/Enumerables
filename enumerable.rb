@@ -89,16 +89,15 @@ bul = false
 
   ## my_count method
    def my_count(args = nil)
+    arr = self
     counter = 0
-    unless args == nil
-       for i in self 
-         counter +=1 if i == args
-       end
-    return counter
+    if args != nil
+      arr.my_each { |i| counter +=1 if i == args }
+    elsif block_given?
+      arr.my_each { |i| counter +=1 if yield(i) }
+    else
+      arr.my_each { counter += 1 }
     end
-    return to_enum(:my_count) unless block_given?
-    
-    self.my_each { |i| counter += 1 if yield(i) }
     counter
   end
 
@@ -108,36 +107,39 @@ bul = false
 
     arr = self
     new_arr = []
-    return new_arr if arr.my_each { |x| new_arr << x if factor.call(x) }
-    return new_arr if arr.my_each { |x| new_arr << x if yield(x) }
-    new_arr
+    if factor == nil
+      arr.my_each { |x| new_arr << x if factor.call(x) }
+      arr
+    else
+      arr.my_each { |x| new_arr << x if yield(x) }
+      new_arr
+    end
   end
 
   ## my_inject method
-  def my_inject(&factor)
-
+  def my_inject(arg_1 = nil, arg_2 = nil)
     arr = self
-    arr.my_each { |x| factor.call(x) }
-  end
-
-  ## multiply_els method
-  def multiply_els
-    return unless block_given?
-
-    arr = self
-    result = 1
-    arr.my_inject { |i| result = yield(result, i) }
-    result
+    if !block_given? && !arg_2.nil?
+      arr.my_each { |i| arg_1 = arg_1.nil? ? i : arg_1.send(arg_2, i) }
+    else
+      arr.my_each { |i| arg_1 = arg_1.nil? ? i : yield(arg_1, i) }
+    end
+      arg_1
   end
 end
 
+## multiply_els method
+def multiply_els
+  arr.my_inject { |i| result = yield(result, i) }
+end
+
 ## my_each method
-puts '---- my_each ----'
-puts([2, 5, 6, 7].my_each { |x| x })
-puts([2, 5, 6, 7, nil].my_each { |x| x })
-puts([2, 5, 6, 7, nil, 'hello'].my_each { |x| x })
-puts((0..10).my_each { |x| x })
-{ 'name' => 'John', 'age' => 21, 'adress' => 'USA' }.my_each { |x| p x }
+# puts '---- my_each ----'
+# puts([2, 5, 6, 7].my_each { |x| x })
+# puts([2, 5, 6, 7, nil].my_each { |x| x })
+# puts([2, 5, 6, 7, nil, 'hello'].my_each { |x| x })
+# puts((0..10).my_each { |x| x })
+# { 'name' => 'John', 'age' => 21, 'adress' => 'USA' }.my_each { |x| p x }
 
 # ## my_each_index
 # puts '---- my_each_index ----'
@@ -148,31 +150,36 @@ puts((0..10).my_each { |x| x })
 # puts([2, 5, 6, 7].my_select { |n| n })
 
 ## my_any
-puts '---- my_any ----'
-puts(['into', '5', '6'].my_any? { |n| true if /n/ =~ n })
+# puts '---- my_any ----'
+# puts(['into', '5', '6'].my_any? { |n| true if /n/ =~ n })
 
 ## my_all
-puts '---- my_all ----'
-puts [false,2].my_all? 
+# puts '---- my_all ----'
+# puts [false,2].my_all? 
 
 ## my_none
-puts '---- my_none ----'
-puts([4, 5, 6].my_none? { |n| n > 5 })
+# puts '---- my_none ----'
+# puts([4, 5, 6].my_none? { |n| n > 5 })
 
 # ## my_count method
 # puts '---- my_count ----'
 # puts([2, 5, 6, 7].my_count { |x| x })
 
 ## my_map method
-puts '---- my_map ----'
-puts([2, 5, 7, 4, 2].my_map { |x| x<3 })
+# puts '---- my_map ----'
+# puts([2, 5, 7, 4, 2].my_map { |x| x<3 })
 
 ## my_inject method
 puts '---- my_inject ----'
-puts([].my_inject)
+# puts([].my_inject)
+puts ((1..5).my_inject { |sum, n| sum + n })
+puts ((1..5).my_inject)
+puts (1..5).my_inject(1) { |product, n| product * n }
+puts %w[hello world ruby].my_inject {|memo, word| memo.length > word.length ? memo : word}
+
 
 ## my_inject and multiply_els
-puts '---- multiply_els ----'
-puts([2, 4, 5].multiply_els { |x, y| x * y })
+# puts '---- multiply_els ----'
+# puts([2, 4, 5].multiply_els { |x, y| x * y })
 
 #return to_enum(:my_select) unless block_given?
