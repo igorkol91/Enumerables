@@ -45,15 +45,18 @@ module Enumerable
   def my_any?
      unless block_given? 
       for i in self 
-        if i == true 
-        return true 
+        if i == true
+        return true
         end
         end
-    return false
+    for i in self 
+       return false if i == false
+    end
+     return to_enum(:my_any?)
       end 
-    bul = true
+    bul = false
     arr = self
-    arr.my_each { |i| bul = false unless yield(i) }
+    arr.my_each { |i| bul = true if yield(i) }
     bul
   end
 
@@ -68,11 +71,12 @@ module Enumerable
     for i in self 
        return true if i == true 
     end
+    return to_enum(:my_all?) 
       end 
-    return to_enum(:my_select) unless block_given? && self.length == 0
-bul = true
+    
+bul = false
     arr = self
-    arr.my_each { |i| bul = false unless yield(i) }
+    arr.my_each { |i| bul = true if yield(i) }
     bul
   end
 
@@ -139,11 +143,11 @@ puts([2, 5, 6, 7].my_select { |n| n })
 
 ## my_any
 puts '---- my_any ----'
-puts(['n', 5, 6].my_any? { |n| n })
+puts(['into', '5', '6'].my_any? { |n| true if /n/ =~ n })
 
 ## my_all
 puts '---- my_all ----'
-puts [true,false].my_all? 
+puts [false,2].my_all? 
 
 ## my_none
 puts '---- my_none ----'
