@@ -78,9 +78,9 @@ module Enumerable
   ## my_none method
   def my_none?(arg = nil)
     if block_given?
-      my_all?(&Proc.new)
+      !my_any?(&Proc.new)
     else
-      my_all?(arg)
+      !my_any?(arg)
     end
   end
 
