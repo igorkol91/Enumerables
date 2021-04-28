@@ -1,9 +1,9 @@
 module Enumerable
-  # rubocop:disable Metrics/CyclomaticComplexity
-  # rubocop:disable Metrics/PerceivedComplexity
-  # rubocop:disable Lint/ToEnumArguments
+# rubocop:disable Metrics/CyclomaticComplexity
+# rubocop:disable Metrics/PerceivedComplexity
+# rubocop:disable Lint/ToEnumArguments
 
-  ## method to check incoming data type
+## method to check incoming data type
   def check_data_type(data_type)
     arr = data_type if data_type.instance_of?(Array)
     arr = to_a if data_type.instance_of?(Range)
