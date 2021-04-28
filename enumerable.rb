@@ -10,7 +10,6 @@ module Enumerable
   ## my_each method
   def my_each
     return to_enum(:my_each) unless block_given?
-
     arr = check_data_type(self)
     for i in arr
       yield(i)
@@ -21,7 +20,6 @@ module Enumerable
   ## my_each_index method
   def my_each_with_index
     return to_enum(:my_each_with_index) unless block_given?
-
     arr = check_data_type(self)
     i = 0
     until i >= arr.length
@@ -34,7 +32,6 @@ module Enumerable
   ## my_select method
   def my_select
     return to_enum(:my_select) unless block_given?
-
     arr = []
     my_each { |i| arr << i if yield(i) }
     arr
