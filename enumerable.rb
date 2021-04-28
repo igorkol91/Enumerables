@@ -10,6 +10,7 @@ module Enumerable
   ## my_each method
   def my_each
     return to_enum(:my_each) unless block_given?
+
     for i in check_data_type(self)
       yield(i)
     end
@@ -19,6 +20,7 @@ module Enumerable
   ## my_each_index method
   def my_each_with_index
     return to_enum(:my_each_with_index) unless block_given?
+
     i = 0
     until i >= check_data_type(self).length
       yield(check_data_type(self)[i], i)
@@ -30,13 +32,14 @@ module Enumerable
   ## my_select method
   def my_select
     return to_enum(:my_select) unless block_given?
+
     arr = []
     my_each { |i| arr << i if yield(i) }
     arr
   end
 
   ## my_any method
- def my_any?(arg = nil)
+  def my_any?(arg = nil)
     if block_given?
       self.my_each { |i| return true if yield(i) }
       false
@@ -44,7 +47,7 @@ module Enumerable
       self.my_each { |i| return true if i }
     elsif !arg.nil? && (arg.instance_of? Class)
       self.my_each { |i| return true if [i.class, i.class.superclass].include?(arg) }
-    elsif !arg.nil? && arg.class == Regexp
+    elsif !arg.nil? && arg.instance_of?(Regexp)
       self.my_each { |i| return true if arg.match(i) }
     else
       self.my_each { |i| return true if i == arg }
@@ -61,7 +64,7 @@ module Enumerable
       self.my_each { |i| return false if i.nil? || i == false }
     elsif !arg.nil? && (arg.instance_of? Class)
       self.my_each { |i| return false unless [i.class, i.class.superclass].include?(arg) }
-    elsif !arg.nil? && arg.class == Regexp
+    elsif !arg.nil? && arg.instance_of?(Regexp)
       self.my_each { |i| return false unless arg.match(i) }
     else
       self.my_each { |i| return false if i != arg }
@@ -84,7 +87,7 @@ module Enumerable
     if block_given?
       self.my_each { |i| counter += 1 if yield(i) }
     elsif
-      counter = self.length
+      counter == self.length
     else
       counter = self.my_select { |i| i == arg }.length
     end
@@ -94,6 +97,7 @@ module Enumerable
   ## my_map method
   def my_map(factor = nil)
     return to_enum(:my_map) unless block_given? || !factor.nil?
+
     new_arr = []
     if factor.nil?
       self.my_each { |i| arr << yield(i) }
@@ -104,10 +108,10 @@ module Enumerable
   end
 
   def my_inject(value_one = 0, value_two = nil)
-    unless sym
-      self.my_each {|i| value_one = yield(value_one, i)}
+    if value_two
+      self.my_each { |i| value_one = yield(value_one, i) }
     else
-      self.my_each {|i| initial = value_one.method(value_two).call(i)}
+      self.my_each { |i| value_one = value_one.method(value_two).call(i) }
     end
     value_one
   end
@@ -127,24 +131,24 @@ end
 # puts { 'name' => 'John', 'age' => "21" 'adress' => 'USA' }.my_each { |x| x }
 
 ## my_each_index
-puts '---- my_each_index ----'
-[2, 5, 6, 7].my_each_with_index { |x, i| puts "#{i} : #{x}" }
-%w[Victor Igor Microverse Program].my_each_with_index { |x, i| puts x if i % 2 == 0 }
+# puts '---- my_each_index ----'
+# [2, 5, 6, 7].my_each_with_index { |x, i| puts "#{i} : #{x}" }
+# %w[Victor Igor Microverse Program].my_each_with_index { |x, i| puts x if (i % 2).zero? }
 
 ## my_select
 # puts '---- my_select ----'
 # puts([2, 5, 6, 7].my_select { |n| n })
 
-# # my_all
-# puts '---- my_all ----'
-# string_arr = ['world', 'hello', 'help']
-# puts string_arr.my_all? { |word| word.length <= 3 }
-# puts string_arr.my_all? { |word| word.length >= 4 }
-# puts string_arr.my_all?(/l/)
-# puts [1, 2, 3.14].my_all?(Numeric)
-# puts [1, 'the', 3.14].my_all?(Numeric)
-# puts [].my_all?
-# puts [1, 2, 3].my_all?
+# my_all
+puts '---- my_all ----'
+string_arr = ['world', 'hello', 'help']
+puts string_arr.my_all? { |word| word.length <= 3 }
+puts string_arr.my_all? { |word| word.length >= 4 }
+puts string_arr.my_all?(/l/)
+puts [1, 2, 3.14].my_all?(Numeric)
+puts [1, 'the', 3.14].my_all?(Numeric)
+puts [].my_all?
+puts [1, 2, 3].my_all?
 
 # # my_any
 # puts '---- my_any ----'
