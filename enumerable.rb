@@ -78,23 +78,33 @@ module Enumerable
   ## my_none method
   def my_none?(arg = nil)
     if block_given?
-      my_all?(&Proc.new)
+      my_each { |i| return false if yield(i) == true }
+      true
+    elsif arg.nil?
+      my_each { |i| return true if i.nil? || i == false }
+    elsif !arg.nil? && (arg.instance_of? Class)
+      my_each { |i| return false unless [i.class, i.class.superclass].include?(arg) }
+    elsif !arg.nil? && arg.instance_of?(Regexp)
+      my_each { |i| return false unless arg.match(i) }
     else
-      my_all?(arg)
+      my_each { |i| return true if i != arg }
     end
+    true
   end
 
   ## my_count method
   def my_count(arg = nil)
     counter = 0
-    if block_given?
-      my_each { |i| counter += 1 if yield(i) }
-    elsif !block_given? && arg.nil?
-      counter = my_each.length
+    unless block_given?
+      if arg
+        self.my_each {|i| counter += 1 if counter == arg}
+      else
+        return self.length
+      end
     else
-      counter = my_select { |i| i == arg }.length
+      self.my_each {|i| counter += 1 if yield(i)}
     end
-    counter
+    return counter
   end
 
   ## my_map method
@@ -132,71 +142,34 @@ def multiply_els(arr)
   arr.my_inject(1, '*')
 end
 
-# # my_each method
-# puts '---- my_each ----'
-# puts([2, 5, 6, 7].my_each { |x| x })
-# puts([2, 5, 6, 7, nil].my_each { |x| x })
-# puts([2, 5, 6, 7, nil, 'hello'].my_each { |x| x })
-# puts((0..10).my_each { |x| x })
-# puts({ 'name' => 'John', 'age' => '21', 'adress' => 'USA' }.my_each { |x| x })
-
 # # my_each_index
 # puts '---- my_each_index ----'
 # [2, 5, 6, 7].my_each_with_index { |x, i| puts "#{i} : #{x}" }
-# %w[Victor Igor Microverse Program].my_each_with_index { |x, i| puts x if (i % 2).zero? }
+# %w[Victor Igor Microverse Program].my_each_with_index { |x, i| puts x if (i % 2).zero? 
 
-# # my_select
-# puts '---- my_select ----'
-# puts([2, 5, 6, 7].my_select { |n| n })
-
-# # my_all
-# puts '---- my_all ----'
-# string_arr = ['world', 'hello', 'help']
-# puts string_arr.my_all? { |word| word.length <= 3 }
-# puts string_arr.my_all? { |word| word.length >= 4 }
-# puts string_arr.my_all?(/l/)
-# puts [1, 2, 3.14].my_all?(Numeric)
-# puts [1, 'the', 3.14].my_all?(Numeric)
-# puts [].my_all?
-# puts [1, 2, 3].my_all?
-
-# # # my_any
-# puts '---- my_any ----'
-# string_arr = ['world', 'hello', 'help']
-# puts string_arr.my_all? { |word| word.length <= 3 }
-# puts string_arr.my_all? { |word| word.length >= 3 }
-# puts string_arr.my_all?(/h/)
-# puts [1, 2, 3.14].my_all?(Numeric)
-# puts [1, 'the', 3.14].my_all?(Numeric)
-# puts [].my_all?
-# puts [1, 2, 3].my_all?
-
-# # my_none
+# my_none
 # puts '---- my_none ----'
 # string_arr = ['world', 'hello', 'help']
-# puts string_arr.my_all? { |word| word.length == 3 }
-# puts string_arr.my_all? { |word| word.length >= 4 }
-# puts string_arr.my_all?(/o/)
-# puts [1, 2, 3.14].my_all?(Integer)
-# puts [1, 'the', 3.14].my_all?(Numeric)
-# puts [].my_all?
-# puts [1, 2, 3].my_all?
+# puts string_arr.my_none? { |word| word.length == 3 }
+# puts string_arr.my_none? { |word| word.length >= 4 }
+# # puts string_arr.my_none?(/o/)
+# puts [1, 's', 3.14].my_none?(Integer)
+# # puts [1, 'the', 3.14].my_none?(Numeric)
+# # puts [].my_none?
+# puts [0, false].my_none?
 
 # # my_count method
-# puts '---- my_count ----'
-# puts((1..3).my_count(3){|n| n})
+puts '---- my_count ----'
+puts((1..3).my_count(3){|n| n})
 
-# # my_map method
-# puts '---- my_map ----'
-# puts([2, 5, 7, 4, 2].my_map { |x| x<3 })
 
-my_inject method
-puts '---- my_inject ----'
-puts([5, 6, 7, 8, 9, 10].my_inject(:+))
-puts(%w[asd asdaf asdasdas].my_inject)
-puts((5..10).my_inject(0) { |product, n| product + n })
-puts((5..10).my_inject(1) { |product, n| product * n })
+# #my_inject method
+# puts '---- my_inject ----'
+# puts([5, 6, 7, 8, 9, 10].my_inject(:+))
+# puts(%w[asd asdaf asdasdas].my_inject)
+# puts((5..10).my_inject(0) { |product, n| product + n })
+# puts((5..10).my_inject(1) { |product, n| product * n })
 
-# multiply method
-puts '-----multiply------'
-puts(multiply_els([2, 4, 5]))
+# # multiply method
+# puts '-----multiply------'
+# puts(multiply_els([2, 4, 5]))
