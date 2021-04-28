@@ -122,13 +122,13 @@ def multiply_els(arr)
   arr.my_inject(1, '*')
 end
 
-## my_each method
-# puts '---- my_each ----'
-# puts([2, 5, 6, 7].my_each { |x| x })
-# puts([2, 5, 6, 7, nil].my_each { |x| x })
-# puts([2, 5, 6, 7, nil, 'hello'].my_each { |x| x })
-# puts((0..10).my_each { |x| x })
-# puts { 'name' => 'John', 'age' => "21" 'adress' => 'USA' }.my_each { |x| x }
+# my_each method
+puts '---- my_each ----'
+puts([2, 5, 6, 7].my_each { |x| x })
+puts([2, 5, 6, 7, nil].my_each { |x| x })
+puts([2, 5, 6, 7, nil, 'hello'].my_each { |x| x })
+puts((0..10).my_each { |x| x })
+puts({ 'name' => 'John', 'age' => '21','adress' => 'USA' }.my_each { |x| x })
 
 ## my_each_index
 # puts '---- my_each_index ----'
@@ -139,16 +139,16 @@ end
 # puts '---- my_select ----'
 # puts([2, 5, 6, 7].my_select { |n| n })
 
-# my_all
-puts '---- my_all ----'
-string_arr = ['world', 'hello', 'help']
-puts string_arr.my_all? { |word| word.length <= 3 }
-puts string_arr.my_all? { |word| word.length >= 4 }
-puts string_arr.my_all?(/l/)
-puts [1, 2, 3.14].my_all?(Numeric)
-puts [1, 'the', 3.14].my_all?(Numeric)
-puts [].my_all?
-puts [1, 2, 3].my_all?
+# # my_all
+# puts '---- my_all ----'
+# string_arr = ['world', 'hello', 'help']
+# puts string_arr.my_all? { |word| word.length <= 3 }
+# puts string_arr.my_all? { |word| word.length >= 4 }
+# puts string_arr.my_all?(/l/)
+# puts [1, 2, 3.14].my_all?(Numeric)
+# puts [1, 'the', 3.14].my_all?(Numeric)
+# puts [].my_all?
+# puts [1, 2, 3].my_all?
 
 # # my_any
 # puts '---- my_any ----'
