@@ -1,4 +1,3 @@
-# rubocop: disable Metrics/ModuleLength
 module Enumerable
   ## method to check incoming data type
   def check_data_type(data_type)
@@ -11,23 +10,21 @@ module Enumerable
   ## my_each method
   def my_each
     return to_enum(:my_each) unless block_given?
-    arr = check_data_type(self)
-    for i in arr
+    for i in check_data_type(self)
       yield(i)
     end
-    arr
+    self
   end
 
   ## my_each_index method
   def my_each_with_index
     return to_enum(:my_each_with_index) unless block_given?
-    arr = check_data_type(self)
     i = 0
-    until i >= arr.length
-      yield(arr[i], i)
+    until i >= check_data_type(self).length
+      yield(check_data_type(self)[i], i)
       i += 1
     end
-    arr
+    self
   end
 
   ## my_select method
@@ -39,116 +36,86 @@ module Enumerable
   end
 
   ## my_any method
-  def my_any?
-    unless block_given?
-      for i in self
-        return true if i == true
-      end
-      # rubocop: disable Style/CombinableLoops
-      for i in self
-        return false if i == false
-      end
-      # rubocop: enable Style/CombinableLoops
-      return to_enum(:my_any?)
+ def my_any?(arg = nil)
+    if block_given?
+      self.my_each { |i| return true if yield(i) }
+      false
+    elsif arg.nil?
+      self.my_each { |i| return true if i }
+    elsif !arg.nil? && (arg.instance_of? Class)
+      self.my_each { |i| return true if [i.class, i.class.superclass].include?(arg) }
+    elsif !arg.nil? && arg.class == Regexp
+      self.my_each { |i| return true if arg.match(i) }
+    else
+      self.my_each { |i| return true if i == arg }
     end
-    bul = false
-    arr = self
-    arr.my_each { |x| bul = true if yield(x) }
-    bul
+    false
   end
 
   ## my_all method
-  # rubocop: disable Metrics/CyclomaticComplexity
-  def my_all?
-    unless block_given?
-      for i in self
-        return false if i == false || i.nil?
-      end
-      # rubocop: disable Style/CombinableLoops
-      for i in self
-        return true if i == true
-      end
-      # rubocop: enable Style/CombinableLoops
-      return to_enum(:my_all?)
+  def my_all?(arg = nil)
+    if block_given?
+      self.my_each { |i| return false if yield(i) == false }
+      true
+    elsif arg.nil?
+      self.my_each { |i| return false if i.nil? || i == false }
+    elsif !arg.nil? && (arg.instance_of? Class)
+      self.my_each { |i| return false unless [i.class, i.class.superclass].include?(arg) }
+    elsif !arg.nil? && arg.class == Regexp
+      self.my_each { |i| return false unless arg.match(i) }
+    else
+      self.my_each { |i| return false if i != arg }
     end
-    bul = false
-    arr = self
-    arr.my_each { |x| bul = true if yield(x) }
-    bul
+    true
   end
-  # rubocop: enable Metrics/CyclomaticComplexity
 
   ## my_none method
-  def my_none?
-    unless block_given?
-      for i in self
-        return false if i == true
-      end
-      # rubocop: disable Style/CombinableLoops
-      for i in self
-        return true if i == false
-      end
-      # rubocop: enable Style/CombinableLoops
-      return to_enum(:my_none?)
+  def my_none?(arg = nil)
+    if block_given?
+      my_all?(&Proc.new)
+    else
+      my_all?(arg)
     end
-    bul = true
-    arr = self
-    arr.my_each { |x| bul = false if yield(x) }
-    bul
   end
 
   ## my_count method
-  def my_count(args = nil)
+  def my_count(arg = nil)
     counter = 0
-    unless args.nil?
-      for i in self
-        counter += 1 if i == args
-       end
-      return counter
+    if block_given?
+      self.my_each { |i| counter += 1 if yield(i) }
+    elsif
+      counter = self.length
+    else
+      counter = self.my_select { |i| i == arg }.length
     end
     counter
   end
 
   ## my_map method
-  def my_map(&factor)
-    return to_enum(:my_map) unless block_given?
-
-    arr = self
+  def my_map(factor = nil)
+    return to_enum(:my_map) unless block_given? || !factor.nil?
     new_arr = []
     if factor.nil?
-      arr.my_each { |x| new_arr << x if factor.call(x) }
-      arr
+      self.my_each { |i| arr << yield(i) }
     else
-      arr.my_each { |x| new_arr << x if yield(x) }
-      new_arr
+      self.my_each { |i| arr << factor.call(i) }
     end
+    new_arr
   end
 
-  # rubocop: disable Metrics/CyclomaticComplexity
-  # rubocop: disable Metrics/PerceivedComplexity
-  def my_inject(*args)
-    return min.length if args.length.zero? and self[0].is_a? String
-
-    if args.length == 1
-      if args.first.is_a?(Symbol)
-        sum = args.first
-      else
-        result = args.first
-      end
+  def my_inject(value_one = 0, value_two = nil)
+    unless sym
+      self.my_each {|i| value_one = yield(value_one, i)}
+    else
+      self.my_each {|i| initial = value_one.method(value_two).call(i)}
     end
-    result = args.first, sum = args.last if args.length == 2
-    result ||= 0
-    my_each { |x| result = block_given? ? yield(result, x) : result.send(sum, x) }
-    result
+    value_one
   end
-  # rubocop: enable Metrics/CyclomaticComplexity
-  # rubocop: enable Metrics/PerceivedComplexity
-  # rubocop: enable Metrics/ModuleLength
 end
 
 ## multiply_els method
 def multiply_els(arr)
-  arr.my_inject(1) { |multiply, num| multiply * num }
+  arr.my_inject(1, '*')
 end
 
 ## my_each method
@@ -157,26 +124,49 @@ end
 # puts([2, 5, 6, 7, nil].my_each { |x| x })
 # puts([2, 5, 6, 7, nil, 'hello'].my_each { |x| x })
 # puts((0..10).my_each { |x| x })
-# { 'name' => 'John', 'age' => 21, 'adress' => 'USA' }.my_each { |x| p x }
+# puts { 'name' => 'John', 'age' => "21" 'adress' => 'USA' }.my_each { |x| x }
 
 ## my_each_index
-# puts '---- my_each_index ----'
-# puts([2, 5, 6, 7].my_each_with_index { |x, i| puts "#{i} : #{x}" })
+puts '---- my_each_index ----'
+[2, 5, 6, 7].my_each_with_index { |x, i| puts "#{i} : #{x}" }
+%w[Victor Igor Microverse Program].my_each_with_index { |x, i| puts x if i % 2 == 0 }
 
 ## my_select
 # puts '---- my_select ----'
 # puts([2, 5, 6, 7].my_select { |n| n })
 
-# puts '---- my_any ----'
-# puts([4, 5, 6].my_any? { |n| true if n >8 })
-
-## my_all
+# # my_all
 # puts '---- my_all ----'
-# puts [false,2].my_all?
+# string_arr = ['world', 'hello', 'help']
+# puts string_arr.my_all? { |word| word.length <= 3 }
+# puts string_arr.my_all? { |word| word.length >= 4 }
+# puts string_arr.my_all?(/l/)
+# puts [1, 2, 3.14].my_all?(Numeric)
+# puts [1, 'the', 3.14].my_all?(Numeric)
+# puts [].my_all?
+# puts [1, 2, 3].my_all?
+
+# # my_any
+# puts '---- my_any ----'
+# string_arr = ['world', 'hello', 'help']
+# puts string_arr.my_all? { |word| word.length <= 3 }
+# puts string_arr.my_all? { |word| word.length >= 3 }
+# puts string_arr.my_all?(/h/)
+# puts [1, 2, 3.14].my_all?(Numeric)
+# puts [1, 'the', 3.14].my_all?(Numeric)
+# puts [].my_all?
+# puts [1, 2, 3].my_all?
 
 ## my_none
 # puts '---- my_none ----'
-# puts([4,5,6].my_none? { |n| true if n > 8 })
+# string_arr = ['world', 'hello', 'help']
+# puts string_arr.my_all? { |word| word.length == 3 }
+# puts string_arr.my_all? { |word| word.length >= 4 }
+# puts string_arr.my_all?(/o/)
+# puts [1, 2, 3.14].my_all?(Integer)
+# puts [1, 'the', 3.14].my_all?(Numeric)
+# puts [].my_all?
+# puts [1, 2, 3].my_all?
 
 ## my_count method
 # puts '---- my_count ----'
@@ -186,11 +176,11 @@ end
 # puts '---- my_map ----'
 # puts([2, 5, 7, 4, 2].my_map { |x| x<3 })
 
-# my_inject method
-puts '---- my_inject ----'
-puts([5, 6, 7, 8, 9, 10].my_inject(:+))
-puts(%w[asd asdaf asdasdas].my_inject)
-puts((5..10).my_inject(0) { |product, n| product + n })
-puts((5..10).my_inject(1) { |product, n| product * n })
-puts '-----multiply------'
-puts(multiply_els([2, 4, 5]) { |product, n| product * n })
+# # my_inject method
+# puts '---- my_inject ----'
+# puts([5, 6, 7, 8, 9, 10].my_inject(:+))
+# puts(%w[asd asdaf asdasdas].my_inject)
+# puts((5..10).my_inject(0) { |product, n| product + n })
+# puts((5..10).my_inject(1) { |product, n| product * n })
+# puts '-----multiply------'
+# puts(multiply_els([2, 4, 5]) { |product, n| product * n })
