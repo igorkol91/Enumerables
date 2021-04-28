@@ -97,7 +97,7 @@ module Enumerable
 
   ## my_map method
   def my_map(factor = nil)
-    return to_enum(:my_map) block_given? || !factor.nil?
+    return to_enum(:my_map) unless block_given? || !factor.nil?
 
     new_arr = []
     if factor.nil?
