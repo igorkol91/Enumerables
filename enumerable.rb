@@ -40,14 +40,14 @@ module Enumerable
 
   ## my_any method
   def my_any?(arg = nil)
-    if block_given?
+    when block_given?
       my_each { |i| return true if yield(i) }
       false
-    elsif arg.nil?
+    when arg.nil?
       my_each { |i| return true if i }
-    elsif !arg.nil? && (arg.instance_of? Class)
+    when !arg.nil? && (arg.instance_of? Class)
       my_each { |i| return true if [i.class, i.class.superclass].include?(arg) }
-    elsif !arg.nil? && arg.instance_of?(Regexp)
+    when !arg.nil? && arg.instance_of?(Regexp)
       my_each { |i| return true if arg.match(i) }
     else
       my_each { |i| return true if i == arg }
@@ -93,7 +93,6 @@ module Enumerable
     end
     counter
   end
-
 
   ## my_map method
   def my_map(factor = nil)
