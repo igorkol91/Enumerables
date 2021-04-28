@@ -39,21 +39,20 @@ module Enumerable
   end
 
   ## my_any method
-  def my_any?(arg = nil)
-    unless block_given?
+  def my_any?(arg)
+    if block_given?
       my_each { |i| return true if yield(i) }
       false
-      if arg.nil?
-        my_each { |i| return true if i }
-      elsif !arg.nil? && (arg.instance_of? Class)
-        my_each { |i| return true if [i.class, i.class.superclass].include?(arg) }
-      elsif !arg.nil? && arg.instance_of?(Regexp)
-        my_each { |i| return true if arg.match(i) }
-      else
-        my_each { |i| return true if i == arg }
-      end
+    elsif arg == nil
+      my_each { |i| return true if i }
+    elsif !arg == nil && (arg.instance_of? Class)
+      my_each { |i| return true if [i.class, i.class.superclass].include?(arg) }
+    elsif !arg == nil && arg.instance_of?(Regexp)
+      my_each { |i| return true if arg.match(i) }
+    else
+      my_each { |i| return true if i == arg }
     end
-    return false
+    false
   end
 
   ## my_all method
