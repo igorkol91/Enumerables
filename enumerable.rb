@@ -86,13 +86,14 @@ module Enumerable
     counter = 0
     if block_given?
       my_each { |i| counter += 1 if yield(i) }
-    elsif
-      counter == self.length
+    elsif !block_given? && arg.nil?
+      counter = self.length
     else
-      counter = self.my_select { |i| i == arg }.length
+      counter = my_select { |i| i == arg }.length
     end
     counter
   end
+
 
   ## my_map method
   def my_map(factor = nil)
