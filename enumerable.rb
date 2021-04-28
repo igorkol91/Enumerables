@@ -41,16 +41,16 @@ module Enumerable
   ## my_any method
   def my_any?(arg = nil)
     if block_given?
-      self.my_each { |i| return true if yield(i) }
+      my_each { |i| return true if yield(i) }
       false
     elsif arg.nil?
-      self.my_each { |i| return true if i }
+      my_each { |i| return true if i }
     elsif !arg.nil? && (arg.instance_of? Class)
-      self.my_each { |i| return true if [i.class, i.class.superclass].include?(arg) }
+      my_each { |i| return true if [i.class, i.class.superclass].include?(arg) }
     elsif !arg.nil? && arg.instance_of?(Regexp)
-      self.my_each { |i| return true if arg.match(i) }
+      my_each { |i| return true if arg.match(i) }
     else
-      self.my_each { |i| return true if i == arg }
+      my_each { |i| return true if i == arg }
     end
     false
   end
@@ -58,16 +58,16 @@ module Enumerable
   ## my_all method
   def my_all?(arg = nil)
     if block_given?
-      self.my_each { |i| return false if yield(i) == false }
+      my_each { |i| return false if yield(i) == false }
       true
     elsif arg.nil?
-      self.my_each { |i| return false if i.nil? || i == false }
+      my_each { |i| return false if i.nil? || i == false }
     elsif !arg.nil? && (arg.instance_of? Class)
-      self.my_each { |i| return false unless [i.class, i.class.superclass].include?(arg) }
+      my_each { |i| return false unless [i.class, i.class.superclass].include?(arg) }
     elsif !arg.nil? && arg.instance_of?(Regexp)
-      self.my_each { |i| return false unless arg.match(i) }
+      my_each { |i| return false unless arg.match(i) }
     else
-      self.my_each { |i| return false if i != arg }
+      my_each { |i| return false if i != arg }
     end
     true
   end
@@ -85,7 +85,7 @@ module Enumerable
   def my_count(arg = nil)
     counter = 0
     if block_given?
-      self.my_each { |i| counter += 1 if yield(i) }
+      my_each { |i| counter += 1 if yield(i) }
     elsif
       counter == self.length
     else
@@ -100,18 +100,18 @@ module Enumerable
 
     new_arr = []
     if factor.nil?
-      self.my_each { |i| arr << yield(i) }
+      my_each { |i| arr << yield(i) }
     else
-      self.my_each { |i| arr << factor.call(i) }
+      my_each { |i| arr << factor.call(i) }
     end
     new_arr
   end
 
   def my_inject(value_one = 0, value_two = nil)
     if value_two
-      self.my_each { |i| value_one = yield(value_one, i) }
+      my_each { |i| value_one = yield(value_one, i) }
     else
-      self.my_each { |i| value_one = value_one.method(value_two).call(i) }
+      my_each { |i| value_one = value_one.method(value_two).call(i) }
     end
     value_one
   end
@@ -128,7 +128,7 @@ puts([2, 5, 6, 7].my_each { |x| x })
 puts([2, 5, 6, 7, nil].my_each { |x| x })
 puts([2, 5, 6, 7, nil, 'hello'].my_each { |x| x })
 puts((0..10).my_each { |x| x })
-puts({ 'name' => 'John', 'age' => '21','adress' => 'USA' }.my_each { |x| x })
+puts({ 'name' => 'John', 'age' => '21', 'adress' => 'USA' }.my_each { |x| x })
 
 ## my_each_index
 # puts '---- my_each_index ----'
@@ -150,7 +150,7 @@ puts({ 'name' => 'John', 'age' => '21','adress' => 'USA' }.my_each { |x| x })
 # puts [].my_all?
 # puts [1, 2, 3].my_all?
 
-# # my_any
+# # # my_any
 # puts '---- my_any ----'
 # string_arr = ['world', 'hello', 'help']
 # puts string_arr.my_all? { |word| word.length <= 3 }
