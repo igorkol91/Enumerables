@@ -87,7 +87,7 @@ module Enumerable
     if block_given?
       my_each { |i| counter += 1 if yield(i) }
     elsif !block_given? && arg.nil?
-      counter = self.length
+      counter = my_each.length
     else
       counter = my_select { |i| i == arg }.length
     end
