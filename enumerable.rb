@@ -6,7 +6,7 @@ module Enumerable
   def check_data_type(data_type)
     arr = data_type if data_type.instance_of?(Array)
     arr = to_a if data_type.instance_of?(Range)
-    arr = data_type if data_type.instance_of?(Hash)
+    arr = to_a if data_type.instance_of?(Hash)
     arr
   end
 
@@ -151,71 +151,3 @@ def multiply_els(arr)
   arr.my_inject(1, '*')
 end
 
-# # my_each method
-# puts '---- my_each ----'
-# puts([2, 5, 6, 7].my_each { |x| x })
-# puts([2, 5, 6, 7, nil].my_each { |x| x })
-# puts([2, 5, 6, 7, nil, 'hello'].my_each { |x| x })
-# puts((0..10).my_each { |x| x })
-# puts({ 'name' => 'John', 'age' => '21', 'adress' => 'USA' }.my_each { |x| x })
-
-# # my_each_index
-# puts '---- my_each_index ----'
-# [2, 5, 6, 7].my_each_with_index { |x, i| puts "#{i} : #{x}" }
-# %w[Victor Igor Microverse Program].my_each_with_index { |x, i| puts x if (i % 2).zero? }
-
-# # my_select
-# puts '---- my_select ----'
-# puts([2, 5, 6, 7].my_select { |n| n })
-
-# # my_all
-# puts '---- my_all ----'
-# string_arr = ['world', 'hello', 'help']
-# puts string_arr.my_all? { |word| word.length <= 3 }
-# puts string_arr.my_all? { |word| word.length >= 4 }
-# puts string_arr.my_all?(/l/)
-# puts [1, 2, 3.14].my_all?(Numeric)
-# puts [1, 'the', 3.14].my_all?(Numeric)
-# puts [].my_all?
-# puts [1, 2, 3].my_all?
-
-# # # my_any
-# puts '---- my_any ----'
-# string_arr = ['world', 'hello', 'help']
-# puts string_arr.my_all? { |word| word.length <= 3 }
-# puts string_arr.my_all? { |word| word.length >= 3 }
-# puts string_arr.my_all?(/h/)
-# puts [1, 2, 3.14].my_all?(Numeric)
-# puts [1, 'the', 3.14].my_all?(Numeric)
-# puts [].my_all?
-# puts [1, 2, 3].my_all?
-
-# # my_none
-# puts '---- my_none ----'
-# string_arr = ['world', 'hello', 'help']
-# puts string_arr.my_all? { |word| word.length == 3 }
-# puts string_arr.my_all? { |word| word.length >= 4 }
-# puts string_arr.my_all?(/o/)
-# puts [1, 2, 3.14].my_all?(Integer)
-# puts [1, 'the', 3.14].my_all?(Numeric)
-# puts [].my_all?
-# puts [1, 2, 3].my_all?
-
-# # my_count method
-# puts '---- my_count ----'
-# puts((1..3).my_count(3){|n| n})
-
-# # my_map method
-# puts '---- my_map ----'
-# puts([2, 5, 7, 4, 2].my_map { |x| x<3 })
-
-my_inject method
-puts '---- my_inject ----'
-puts([5, 6, 7, 8, 9, 10].my_inject(:+))
-puts(%w[asd asdaf asdasdas].my_inject)
-puts((5..10).my_inject(0) { |product, n| product + n })
-puts((5..10).my_inject(1) { |product, n| product * n })
-
-# multiply method
-puts '-----multiply------'
-puts(multiply_els([2, 4, 5]))
