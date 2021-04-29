@@ -97,9 +97,11 @@ module Enumerable
   def my_count(arg = nil)
     counter = 0
     if arg.nil? && !block_given?
+      # rubocop:disable Lint/UselessAssignment
       for i in self
         counter += 1
       end
+      # rubocop:enable Lint/UselessAssignment
     elsif !arg.nil? and !block_given?
       for i in self
         counter += 1 if i == arg
