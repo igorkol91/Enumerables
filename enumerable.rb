@@ -97,11 +97,11 @@ module Enumerable
   def my_count(arg = nil)
     counter = 0
     if arg.nil? && !block_given?
-       # rubocop:disable UselessAssignment
+      # rubocop:disable UselessAssignment
       for i in self
         counter += 1
       end
-       # rubocop:enable UselessAssignment
+      # rubocop:enable UselessAssignment
     elsif !arg.nil? and !block_given?
       for i in self
         counter += 1 if i == arg
