@@ -77,10 +77,23 @@ module Enumerable
 
   ## my_none method
   def my_none?(arg = nil)
+    bul = true
     if block_given?
-      !my_any?(&Proc.new)
+      my_each { |i| bul = false if yield i }
+      p bul
+      return bul
+    elsif arg.nil?
+      my_each { |i| bul = false if i }
+      return bul
+    elsif !arg.nil? && (arg.instance_of? Class)
+      my_each { |i| bul = false if [i.class, i.class.superclass].include?(arg) }
+      return bul
+    elsif !arg.nil? && arg.instance_of?(Regexp)
+      my_each { |i| bul = false if arg.match(i) }
+      return bul
     else
-      !my_any?(arg)
+      my_each { |i| bul = false if i == arg }
+      return bul
     end
   end
 
