@@ -6,7 +6,7 @@ module Enumerable
   def check_data_type(data_type)
     arr = data_type if data_type.instance_of?(Array)
     arr = to_a if data_type.instance_of?(Range)
-    arr = data_type if data_type.instance_of?(Hash)
+    arr = to_a if data_type.instance_of?(Hash)
     arr
   end
 
@@ -78,16 +78,9 @@ module Enumerable
   ## my_none method
   def my_none?(arg = nil)
     if block_given?
-      my_each { |i| return false if yield(i) == true }
-      true
-    elsif arg.nil?
-      my_each { |i| return true if i.nil? || i == false }
-    elsif !arg.nil? && (arg.instance_of? Class)
-      my_each { |i| return false unless [i.class, i.class.superclass].include?(arg) }
-    elsif !arg.nil? && arg.instance_of?(Regexp)
-      my_each { |i| return false unless arg.match(i) }
+      !my_any?(&Proc.new)
     else
-      my_each { |i| return true if i != arg }
+      !my_any?(arg)
     end
     true
   end
@@ -99,7 +92,8 @@ module Enumerable
       if arg
         self.my_each {|i| counter += 1 if counter == arg}
       else
-        return self.length
+        self.my_each {|i| counter += 1}
+        return counter
       end
     else
       self.my_each {|i| counter += 1 if yield(i)}
@@ -143,24 +137,26 @@ def multiply_els(arr)
 end
 
 # # my_each_index
-# puts '---- my_each_index ----'
+puts '---- my_each_index ----'
 # [2, 5, 6, 7].my_each_with_index { |x, i| puts "#{i} : #{x}" }
-# %w[Victor Igor Microverse Program].my_each_with_index { |x, i| puts x if (i % 2).zero? 
+# %w[Victor Igor Microverse Program].my_each_with_index { |x, i| puts x if (i % 2).zero?} 
+{'name'=>'vikita', 'age'=>12, 'address'=>'nairobi'}.my_each_with_index { |x, i| puts "#{i} : #{x}" } 
 
 # my_none
 # puts '---- my_none ----'
 # string_arr = ['world', 'hello', 'help']
 # puts string_arr.my_none? { |word| word.length == 3 }
 # puts string_arr.my_none? { |word| word.length >= 4 }
-# # puts string_arr.my_none?(/o/)
+# puts string_arr.my_none?(/o/)
 # puts [1, 's', 3.14].my_none?(Integer)
-# # puts [1, 'the', 3.14].my_none?(Numeric)
-# # puts [].my_none?
+# puts [1, 'the', 3.14].my_none?(Numeric)
+# puts [].my_none?
 # puts [0, false].my_none?
 
 # # my_count method
-puts '---- my_count ----'
-puts((1..3).my_count(3){|n| n})
+# puts '---- my_count ----'
+# puts((1..3).my_count(1))
+# puts([1,2,3,4].my_count(1))
 
 
 # #my_inject method
