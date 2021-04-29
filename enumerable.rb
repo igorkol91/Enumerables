@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/ModuleLength
 module Enumerable
   # rubocop:disable Metrics/CyclomaticComplexity
   # rubocop:disable Metrics/PerceivedComplexity
@@ -80,33 +81,28 @@ module Enumerable
     bul = true
     if block_given?
       my_each { |i| bul = false if yield i }
-      p bul
-      return bul
     elsif arg.nil?
       my_each { |i| bul = false if i }
-      return bul
     elsif !arg.nil? && (arg.instance_of? Class)
       my_each { |i| bul = false if [i.class, i.class.superclass].include?(arg) }
-      return bul
     elsif !arg.nil? && arg.instance_of?(Regexp)
       my_each { |i| bul = false if arg.match(i) }
-      return bul
     else
       my_each { |i| bul = false if i == arg }
-      return bul
     end
+    bul
   end
 
   ## my_count method
-  def my_count(arg = nil) 
-    counter = 0 
-    if arg == nil && !block_given?
+  def my_count(arg = nil)
+    counter = 0
+    if arg.nil? && !block_given?
       for i in self
-        counter+=1
+        counter += 1
       end
-    elsif arg != nil and !block_given?
+    elsif !arg.nil? and !block_given?
       for i in self 
-        counter +=1 if i == arg
+        counter += 1 if i == arg
       end
     elsif block_given?
       for i in self
@@ -144,10 +140,10 @@ module Enumerable
   # rubocop:enable Metrics/CyclomaticComplexity
   # rubocop:enable Metrics/PerceivedComplexity
   # rubocop:enable Lint/ToEnumArguments
+  # rubocop:enable Metrics/ModuleLength
 end
 
 ## multiply_els method
 def multiply_els(arr)
   arr.my_inject(1, '*')
 end
-
