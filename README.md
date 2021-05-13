@@ -18,7 +18,9 @@ https://replit.com/@vikitaotiz/HandyNotedTrees#main.rb
 
 1. Clone the project
    https://github.com/igorkol91/Enumerables/tree/development
+   
 2. On your terminal, cd into the app directory
+
 3. Run "ruby enumerable.rb"
 
 4. You can also copy the code from enumerable.rb then paste and run it on https://replit.com/languages/ruby
@@ -27,18 +29,16 @@ https://replit.com/@vikitaotiz/HandyNotedTrees#main.rb
 
 For local usage, ensure you have ruby installed and environment variable configured properly.
 
+### Rspec
+
+To run the tests, enter the TicTacToe directory and run rspec in the console
+
 ## Authors
 
 :bust_in_silhouette: **Author1**
 
 - GitHub: [@igorkol91](https://github.com/igorkol91)
 - Twitter: [@Destro49536502]
-- LinkedIn: [LinkedIn](https://linkedin.com/in/linkedinhandle)
-
-:bust_in_silhouette: **Author2**
-
-- GitHub: [@vikitaotiz](https://github.com/vikitaotiz)
-- Twitter: [@victoro29641869]
 - LinkedIn: [LinkedIn](https://linkedin.com/in/linkedinhandle)
 
 ## :handshake: Contributing
