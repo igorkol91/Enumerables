@@ -1,13 +1,13 @@
 # spec/enumerable_spec.rb
 
-require_relative '../enumerable.rb'
+require_relative '../enumerable'
 
 describe Enumerable do
   let(:int_array) { [1, 2, 3, 4] }
   let(:str_array) { %w[igor cat fancy] }
   let(:mix_array) { [nil, true, 1] }
   let(:empty_array) { [] }
-  #my_each#
+  # my_each#
   describe '#my_each' do
     it 'checks my_each' do
       expect(int_array.my_each { |x| x * 4 }).to eql([1, 2, 3, 4])
@@ -17,7 +17,7 @@ describe Enumerable do
     end
   end
 
-  #my_each_with_index#
+  # my_each_with_index#
   describe '#my_each_with_index' do
     it 'checks my_each_with_index' do
       expect(int_array.my_each_with_index { |item, index| item if index.even? }).to eql([1, 2, 3, 4])
@@ -27,7 +27,7 @@ describe Enumerable do
     end
   end
 
-  #my_select#
+  # my_select#
   describe '#my_select' do
     it 'checks my_select' do
       expect(int_array.my_select(&:even?)).to eql([2, 4])
@@ -36,7 +36,7 @@ describe Enumerable do
     end
   end
 
-  #my_any?#
+  # my_any?#
   describe '#my_any?' do
     it 'checks my_any? for int array' do
       expect(int_array.my_any?).to eql(true)
@@ -62,7 +62,7 @@ describe Enumerable do
       expect(empty_array.my_any?).to eql(false)
     end
   end
-  # ####my_all###########
+  # my_all#
   describe '#my_all?' do
     it 'checks my_all? for int array' do
       expect(int_array.my_all?).to eql(true)
@@ -90,7 +90,7 @@ describe Enumerable do
     end
   end
 
-  # ##my_none#####
+  # my_none#
   describe '#my_none?' do
     it 'checks my_none? for int array' do
       expect(int_array.my_none?).to eql(false)
@@ -116,7 +116,7 @@ describe Enumerable do
       expect(empty_array.my_none?).to eql(true)
     end
   end
-  # ##my_count####
+  # my_count#
   describe '#my_count' do
     it 'checks my_count' do
       expect(int_array.my_count).to eql(4)
@@ -125,7 +125,7 @@ describe Enumerable do
     end
   end
 
-  # #my_map####
+  # my_map#
   describe '#my_map' do
     it 'checks my_map' do
       expect(int_array.my_map { |item| item**2 }).to eql([1, 4, 9, 16])
