@@ -140,7 +140,7 @@ describe Enumerable do
   describe '#my_map' do
     it 'returns an enumerator if no block given' do
       expect(int_array.my_map).to be_a(Enumerator)
-  end
+    end
     it 'returns new array after calling the block for each element' do
       expect(int_array.my_map { |item| item**2 }).to eql([1, 4, 9, 16])
     end
@@ -160,7 +160,7 @@ describe Enumerable do
   # multiply_els#
   describe '#multiply_els' do
     it 'multiplies all values of the argument, and returns result' do
-      expect(multiply_els([2,4,5])).to eql(40)
+      expect(multiply_els([2, 4, 5])).to eql(40)
     end
   end
- end
+end
