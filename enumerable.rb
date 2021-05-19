@@ -148,12 +148,3 @@ end
 def multiply_els(arr)
   arr.my_inject(1, '*')
 end
-
-ary = [1, 2, 4, 2]
-p ary.count #=> 4
-p ary.count(2) #=> 2
-p ary.count { |x| x.even? } #=> 3
-
-p ary.my_count #=> 4
-p ary.my_count(2) #=> 2
-p ary.my_count { |x| x.even? } #=> 3
