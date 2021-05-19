@@ -23,6 +23,14 @@ https://replit.com/@vikitaotiz/HandyNotedTrees#main.rb
 
 4. You can also copy the code from enumerable.rb then paste and run it on https://replit.com/languages/ruby
 
+## Tests
+
+This game uses Rspec [Rspec](https://rspec.info/)
+To run the tests:
+
+- In your terminal, cd into Enumerables directory and run rspec --init.
+- Then run the file enumerable_spec.rb in the spec folder using rspec command.
+
 ### Prerequisites
 
 For local usage, ensure you have ruby installed and environment variable configured properly.
