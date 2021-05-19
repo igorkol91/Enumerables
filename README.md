@@ -25,7 +25,7 @@ https://replit.com/@vikitaotiz/HandyNotedTrees#main.rb
 
 ## Tests
 
-This project uses Rspec. For more infomation, check [Rspec](https://rspec.info/)
+This project uses Rspec. For more infomation, check [Rspec](https://rspec.info/).
 To run the tests:
 
 - Install rspec by running this command "gem install rspec"
