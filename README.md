@@ -25,7 +25,7 @@ https://replit.com/@vikitaotiz/HandyNotedTrees#main.rb
 
 ## Tests
 
-This game uses Rspec [Rspec](https://rspec.info/)
+This project uses Rspec [Rspec](https://rspec.info/)
 To run the tests:
 
 - In your terminal, cd into Enumerables directory and run rspec --init.
