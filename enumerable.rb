@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/ModuleLength
 module Enumerable
   # rubocop:disable Metrics/CyclomaticComplexity
   # rubocop:disable Metrics/PerceivedComplexity
@@ -77,28 +78,39 @@ module Enumerable
 
   ## my_none method
   def my_none?(arg = nil)
+    bul = true
     if block_given?
-      !my_any?(&Proc.new)
+      my_each { |i| bul = false if yield i }
+    elsif arg.nil?
+      my_each { |i| bul = false if i }
+    elsif !arg.nil? && (arg.instance_of? Class)
+      my_each { |i| bul = false if [i.class, i.class.superclass].include?(arg) }
+    elsif !arg.nil? && arg.instance_of?(Regexp)
+      my_each { |i| bul = false if arg.match(i) }
     else
-      !my_any?(arg)
+      my_each { |i| bul = false if i == arg }
     end
-    true
   end
 
   ## my_count method
   def my_count(arg = nil)
     counter = 0
-    unless block_given?
-      if arg
-        self.my_each {|i| counter += 1 if counter == arg}
-      else
-        self.my_each {|i| counter += 1}
-        return counter
+    if arg.nil? && !block_given?
+      # rubocop:disable Lint/UselessAssignment
+      for i in self
+        counter += 1
       end
-    else
-      self.my_each {|i| counter += 1 if yield(i)}
+      # rubocop:enable Lint/UselessAssignment
+    elsif !arg.nil? and !block_given?
+      for i in self
+        counter += 1 if i == arg
+      end
+    elsif block_given?
+      for i in self
+        counter += 1 if yield i
+      end
     end
-    return counter
+    p counter
   end
 
   ## my_map method
@@ -129,6 +141,7 @@ module Enumerable
   # rubocop:enable Metrics/CyclomaticComplexity
   # rubocop:enable Metrics/PerceivedComplexity
   # rubocop:enable Lint/ToEnumArguments
+  # rubocop:enable Metrics/ModuleLength
 end
 
 ## multiply_els method
@@ -136,36 +149,11 @@ def multiply_els(arr)
   arr.my_inject(1, '*')
 end
 
-# # my_each_index
-puts '---- my_each_index ----'
-# [2, 5, 6, 7].my_each_with_index { |x, i| puts "#{i} : #{x}" }
-# %w[Victor Igor Microverse Program].my_each_with_index { |x, i| puts x if (i % 2).zero?} 
-{'name'=>'vikita', 'age'=>12, 'address'=>'nairobi'}.my_each_with_index { |x, i| puts "#{i} : #{x}" } 
+ary = [1, 2, 4, 2]
+p ary.count #=> 4
+p ary.count(2) #=> 2
+p ary.count { |x| x.even? } #=> 3
 
-# my_none
-# puts '---- my_none ----'
-# string_arr = ['world', 'hello', 'help']
-# puts string_arr.my_none? { |word| word.length == 3 }
-# puts string_arr.my_none? { |word| word.length >= 4 }
-# puts string_arr.my_none?(/o/)
-# puts [1, 's', 3.14].my_none?(Integer)
-# puts [1, 'the', 3.14].my_none?(Numeric)
-# puts [].my_none?
-# puts [0, false].my_none?
-
-# # my_count method
-# puts '---- my_count ----'
-# puts((1..3).my_count(1))
-# puts([1,2,3,4].my_count(1))
-
-
-# #my_inject method
-# puts '---- my_inject ----'
-# puts([5, 6, 7, 8, 9, 10].my_inject(:+))
-# puts(%w[asd asdaf asdasdas].my_inject)
-# puts((5..10).my_inject(0) { |product, n| product + n })
-# puts((5..10).my_inject(1) { |product, n| product * n })
-
-# # multiply method
-# puts '-----multiply------'
-# puts(multiply_els([2, 4, 5]))
+p ary.my_count #=> 4
+p ary.my_count(2) #=> 2
+p ary.my_count { |x| x.even? } #=> 3
