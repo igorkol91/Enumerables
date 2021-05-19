@@ -25,9 +25,10 @@ https://replit.com/@vikitaotiz/HandyNotedTrees#main.rb
 
 ## Tests
 
-This project uses Rspec [Rspec](https://rspec.info/)
+This project uses Rspec. For more infomation, check [Rspec](https://rspec.info/)
 To run the tests:
 
+- Install rspec by running this command "gem install rspec"
 - In your terminal, cd into Enumerables directory and run rspec --init.
 - Then run the file enumerable_spec.rb in the spec folder using rspec command.
 
