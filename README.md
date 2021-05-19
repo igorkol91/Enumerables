@@ -38,12 +38,6 @@ For local usage, ensure you have ruby installed and environment variable configu
 
 ## Authors
 
-:bust_in_silhouette: **Author1**
-
-- GitHub: [@igorkol91](https://github.com/igorkol91)
-- Twitter: [@Destro49536502]
-- LinkedIn: [LinkedIn](https://linkedin.com/in/linkedinhandle)
-
 :bust_in_silhouette: **Author2**
 
 - GitHub: [@vikitaotiz](https://github.com/vikitaotiz)
