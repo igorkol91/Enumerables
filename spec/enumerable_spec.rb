@@ -40,7 +40,7 @@ describe Enumerable do
     end
   end
 
-   # my_select
+  # my_select
   describe '#my_select' do
     it 'returns new array with items that match the requirements' do
       expect(integer_arr.my_select(&:even?)).to eql([4, 10])
@@ -164,7 +164,7 @@ describe Enumerable do
     end
   end
 
-   # my_injext
+  # my_injext
   describe '#my_inject' do
     it 'raises LocalJumpError if no block or proc given or works with block or with 2 arguments' do
       expect { integer_arr.my_inject }.to raise_error(LocalJumpError)
