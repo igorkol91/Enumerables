@@ -1,6 +1,6 @@
 # Enumerables
 
-> This project shows enumerable methods of integer, nil and string arrays, ranges and hashes.
+> This project shows enumerable methods of integer, nil and string arrays, ranges and hashes. 
 
 ![ruby-enum](https://user-images.githubusercontent.com/42869046/116055271-3382bf80-a685-11eb-8ac2-65d70377c8c6.PNG)
 
